@@ -370,6 +370,42 @@ height:50vh;
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2021/04/15/RxSwift%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C%E7%AC%A6/" >
+            
+                <span>RxSwift常用操作符</span>
+        </a>
+        <div class="abstract-content">
+            RxSwift 常用操作符使用场景
+
+验证码输入框 TextField
+
+
+操作符: BahaviorReplay bind
+
+12345678910111213// 只能输入 6 位数字let codeReplay = BehaviorReplay(value: &quot;&quot;)let codeTextField = UITextField()codeTextField.rx.text.orEmpty.map(&#123;text -&gt; String i n      guard text.isMatching(&quot;[\\d]*&quot;) else &#12...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2021/04/15</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "RxSwift">RxSwift</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2021/04/07/Moya%E5%A4%9ATarget%E8%B0%83%E7%94%A8%E7%BB%9F%E4%B8%80%E6%8E%A5%E5%8F%A3/" >
             
                 <span>Moya(4) 开发应用篇3</span>
@@ -654,46 +690,6 @@ iOS开发中简单界面用一个接口请求可能就达到效果了, 但是对
             Moya 解读通常Swift 使用的网络框架是 Alamofire, 对于一些网络请求的细节经常还要单独处理, 比较头疼. 
 Alamofire回顾一下 Alamofire 的网络请求方式: 
 123456789101112131415161. 带参数请求let parameters = [&quot;foo&quot;: &quot;bar&quot;]// All three of these calls are equivalentAF.request(&quot;https://httpbin.org/get&quot;, parameters: parameters) // e...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2021/03/22</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "iOS">iOS</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Moya">Moya</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2021/03/22/Moya%E5%88%9D%E8%AF%86/" >
-            
-                <span>Moya(1) 初识</span>
-        </a>
-        <div class="abstract-content">
-            Moya 库基本使用忽略导入到项目步骤
- 官方模板
-
-新建一个 MyService.swift 文件
-新建MyService 枚举, 录入接口目标信息 ( 每个枚举就是一个接口名称 ) 
-写下可能用到的信息作为枚举的一部分 ( 外部调用作为参数传进来 )
-扩展  MyService, 遵守 TargetType 协议
-实现 TargetType 协议 [ baseURL, path, method, task, simpleData, headers]
-
-TargetType 协议所必须遵守的模板123456var baseURL: URL &#123;&#125;var path: S...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -1330,9 +1326,26 @@ TargetType 协议所必须遵守的模板123456var baseURL: URL &#123;&#125;var 
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 34
+        Total : 35
         </div>
         <!-- search  -->
         
@@ -1349,6 +1362,11 @@ TargetType 协议所必须遵守的模板123456var baseURL: URL &#123;&#125;var 
     
     <div class="archive-year"> 2021 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/22</span><a class="archive-post-title" href= "/2021/07/22/iOS%E5%BC%80%E5%8F%91Skeleton%E9%AA%A8%E6%9E%B6%E8%A7%86%E5%9B%BE%E4%BD%BF%E7%94%A8/" >iOS开发Skeleton骨架视图使用</a>
+        </li>
     
     
         <li class="archive-post-item">
