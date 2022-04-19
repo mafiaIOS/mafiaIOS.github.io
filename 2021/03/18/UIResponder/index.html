@@ -1,0 +1,1722 @@
+<!DOCTYPE html>
+<html lang="default">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    <meta name="author" content="杨庆">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="杨庆">
+    
+    <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
+    
+    <meta name="description" content="杨庆的博客">
+    <meta name="description" content="UIResponder前言:app 与人进行交互,依赖各种事件 举一个例子☝️: 用户点击界面按钮,需要触发一个按钮点击事件,并进行相应的处理,以给用户一个响应.  UIView 的三大职责之一就是处理响应事件, 一个☝️视图是一个事件响应者,可以处理点击事件  这些事件就是在 UIResponder 类中定义的  一个UIResponder类为那些需要响应并处理事件的对象定义了一组接口。这些事件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UIResponder">
+<meta property="og:url" content="http://www.yqblog.cn/2021/03/18/UIResponder/index.html">
+<meta property="og:site_name" content="杨庆的个人博客">
+<meta property="og:description" content="UIResponder前言:app 与人进行交互,依赖各种事件 举一个例子☝️: 用户点击界面按钮,需要触发一个按钮点击事件,并进行相应的处理,以给用户一个响应.  UIView 的三大职责之一就是处理响应事件, 一个☝️视图是一个事件响应者,可以处理点击事件  这些事件就是在 UIResponder 类中定义的  一个UIResponder类为那些需要响应并处理事件的对象定义了一组接口。这些事件">
+<meta property="og:locale">
+<meta property="article:published_time" content="2021-03-18T06:59:47.000Z">
+<meta property="article:modified_time" content="2022-04-19T15:47:39.066Z">
+<meta property="article:author" content="杨庆">
+<meta property="article:tag" content="iOS原理">
+<meta name="twitter:card" content="summary">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    
+    <title>UIResponder · 杨庆的博客</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= "/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="stylesheet" href= "/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href= "/assets/profile.ico" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
+    <link rel="preload" href="/scripts/main.js" as="script" />
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >扬庆の博客</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">UIResponder</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>扬庆の博客</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            UIResponder
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "iOS原理">iOS原理</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">4k</span>阅读时长: <span class="post-count reading-time">14 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2021/03/18</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="UIResponder"><a href="#UIResponder" class="headerlink" title="UIResponder"></a>UIResponder</h1><p>前言:<br>app 与人进行<code>交互</code>,依赖各种<code>事件</code></p>
+<p>举一个例子☝️:<br> 用户点击界面按钮,需要触发一个按钮点击事件,并进行相应的处理,以给用户一个响应.</p>
+<blockquote>
+<p>UIView 的三大职责之一就是处理响应事件, 一个☝️视图是一个事件响应者,可以处理点击事件</p>
+</blockquote>
+<p><code>这些事件就是在 UIResponder 类中定义的 </code></p>
+<p>一个UIResponder类为那些需要响应并处理事件的对象定义了一组接口。<br>这些事件主要分为两类：<code>触摸事件</code>(touch events)和<code>运动事件</code>(motion events)。<br>UIResponder类为每两类事件都定义了一组接口，这个我们将在下面详细描述。</p>
+<p>在UIKit中，UIApplication、UIView、UIViewController这几个类都是直接继承自UIResponder类。另外SpriteKit中的SKNode也是<code>继承自UIResponder类</code>。因此UIKit中的视图、控件、视图控制器，以及我们自定义的视图及视图控制器都有响应事件的能力。这些对象通常被称为<code>响应对象</code>，或者是<code>响应者</code>(以下我们统一使用响应者)。</p>
+<p>本文将详细介绍一个UIResponder类提供的基本功能。</p>
+<p>这里需要了解 响应链以及事件传递知识点 ,  查阅其他文章…</p>
+<h3 id="管理响应链"><a href="#管理响应链" class="headerlink" title="管理响应链"></a>管理响应链</h3><p>UIResponder提供了几个方法来管理响应链，包括让响应对象成为第一响应者、放弃第一响应者、检测是否是第一响应者以及传递事件到下一响应者的方法，我们分别来介绍一下。</p>
+<p>上面提到在响应链中负责传递事件的方法是nextResponder，其声明如下：<br><code>- (UIResponder *)nextResponder</code><br><code>UIResponde</code>r类并不自动保存或设置下一个响应者，该方法的默认实现是返回nil。子类的实现必须重写这个方法来设置下一响应者。UIView的实现是返回管理它的<code>UIViewController</code>对象(如果它有)或者其父视图。而<code>UIViewController</code>的实现是返回它的视图的父视图；<code>UIWindow</code>的实现是返回app对象；而<code>UIApplication</code>的实现是返回nil。所以，响应链是在构建视图层次结构时生成的。<br>一个响应对象可以成为第一响应者，也可以放弃第一响应者。为此，<code>UIResponder</code>提供了一系列方法，我们分别来介绍一下。<br>如果想判定一个响应对象是否是第一响应者，则可以使用以下方法：<br><code>- (BOOL)isFirstResponder</code><br>如果我们希望将一个响应对象作为第一响应者，则可以使用以下方法：<br><code>- (BOOL)becomeFirstResponder</code><br>如果对象成为第一响应者，则返回YES；否则返回NO。默认实现是返回YES。子类可以重写这个方法来更新状态，或者来执行一些其它的行为。<br>一个响应对象只有在当前响应者能放弃第一响应者状态(<code>canResignFirstResponder</code>)且自身能成为第一响应者(<code>canBecomeFirstResponder</code>)时才会成为第一响应者。<br>这个方法相信大家用得比较多，特别是在希望<code>UITextField</code>获取焦点时。另外需要注意的是只有当视图是视图层次结构的一部分时才调用这个方法。如果视图的<code>window</code>属性不为空时，视图才在一个视图层次结构中；如果该属性为nil，则视图不在任何层次结构中。<br>上面提到一个响应对象成为第一响应者的一个前提是它可以成为第一响应者，我们可以使用<code>canBecomeFirstResponder</code>方法来检测，<br><code>- (BOOL)canBecomeFirstResponder</code><br>需要注意的是我们不能向一个不在视图层次结构中的视图发送这个消息，其结果是未定义的。<br>与上面两个方法相对应的是响应者放弃第一响应者的方法，其定义如下：<br><code>- (BOOL)resignFirstResponder- (BOOL)canResignFirstResponder</code><br><code>resignFirstResponder</code>默认也是返回YES。需要注意的是，如果子类要重写这个方法，则在我们的代码中必须调用super的实现。<br><code>canResignFirstResponder</code>默认也是返回YES。不过有些情况下可能需要返回NO，如一个输入框在输入过程中可能需要让这个方法返回NO，以确保在编辑过程中能始终保证是第一响应者。</p>
+<h3 id="管理输入视图"><a href="#管理输入视图" class="headerlink" title="管理输入视图"></a>管理输入视图</h3><p>所谓的输入视图，是指当对象为第一响应者时，显示另外一个视图用来处理当前对象的信息输入，如UITextView和<code>UITextField</code>两个对象，在其成为第一响应者是，会显示一个系统键盘，用来输入信息。这个系统键盘就是输入视图。输入视图有两种，一个是inputView，另一个是<code>inputAccessoryView</code>。这两者如图3所示：</p>
+<p>与<code>inputView</code>相关的属性有如下两个，<br><code>@property(nonatomic, readonly, retain) UIView *inputView</code><br><code>@property(nonatomic, readonly, retain) UIInputViewController *inputViewController</code><br>这两个属性提供一个视图(或视图控制器)用于替代为UITextField和UITextView弹出的系统键盘。我们可以在子类中将这两个属性重新定义为读写属性来设置这个属性。如果我们需要自己写一个键盘的，如为输入框定义一个用于输入身份证的键盘(只包含0-9和X)，则可以使用这两个属性来获取这个键盘。<br>与<code>inputView</code>类似，<code>inputAccessoryView</code>也有两个相关的属性：<br><code>@property(nonatomic, readonly, retain) UIView *inputAccessoryView</code><br><code>@property(nonatomic, readonly, retain) UIInputViewController *inputAccessoryViewController</code><br>设置方法与前面相同，都是在子类中重新定义为可读写属性，以设置这个属性。<br>另外，<code>UIResponder</code>还提供了以下方法，在对象是第一响应者时更新输入和访问视图，<br><code>- (void)reloadInputViews</code><br>调用这个方法时，视图会立即被替换，即不会有动画之类的过渡。如果当前对象不是第一响应者，则该方法是无效的。</p>
+<h3 id="响应触摸事件"><a href="#响应触摸事件" class="headerlink" title="响应触摸事件"></a>响应触摸事件</h3><p><code>UIResponder</code>提供了如下四个大家都非常熟悉的方法来响应触摸事件：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 当一个或多个手指触摸到一个视图或窗口</span><br><span class="line">- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event</span><br><span class="line">&#x2F;&#x2F; 当与事件相关的一个或多个手指在视图或窗口上移动时</span><br><span class="line">- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event</span><br><span class="line">&#x2F;&#x2F; 当一个或多个手指从视图或窗口上抬起时</span><br><span class="line">- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event</span><br><span class="line">&#x2F;&#x2F; 当一个系统事件取消一个触摸事件时</span><br><span class="line">- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event</span><br></pre></td></tr></table></figure>
+<p>这四个方法默认都是什么都不做。不过，UIKit中<code>UIResponder</code>的子类，尤其是UIView，这几个方法的实现都会把消息传递到响应链上。因此，为了不阻断响应链，我们的子类在重写时需要调用父类的相应方法；而不要将消息直接发送给下一响应者。<br>默认情况下，多点触摸是被禁用的。为了接受多点触摸事件，我们需要设置响应视图的multipleTouchEnabled属性为YES。</p>
+<h3 id="响应移动事件"><a href="#响应移动事件" class="headerlink" title="响应移动事件"></a>响应移动事件</h3><p>与触摸事件类似，<code>UIResponder</code>也提供了几个方法来响应移动事件：</p>
+   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 移动事件开始</span><br><span class="line">- (void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event</span><br><span class="line">&#x2F;&#x2F; 移动事件结束</span><br><span class="line">- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event</span><br><span class="line">&#x2F;&#x2F; 取消移动事件</span><br><span class="line">- (void)motionCancelled:(UIEventSubtype)motion withEvent:(UIEvent *)event</span><br></pre></td></tr></table></figure>
+<p>与触摸事件不同的是，运动事件只有开始与结束操作；它不会报告类似于晃动这样的事件。这几个方法的默认操作也是什么都不做。不过，UIKit中<code>UIResponder</code>的子类，尤其是UIView，这几个方法的实现都会把消息传递到响应链上。</p>
+<h3 id="响应远程控制事件"><a href="#响应远程控制事件" class="headerlink" title="响应远程控制事件"></a>响应远程控制事件</h3><p>远程控制事件来源于一些外部的配件，如耳机等。用户可以通过耳机来控制视频或音频的播放。接收响应者对象需要检查事件的子类型来确定命令(如播放，子类型为<code>UIEventSubtypeRemoteControlPlay</code>)，然后进行相应处理。<br>为了响应远程控制事件，<code>UIResponder</code>提供了以下方法，<br><code>- (void)remoteControlReceivedWithEvent:(UIEvent *)event</code><br>我们可以在子类中实现该方法，来处理远程控制事件。不过，为了允许分发远程控制事件，我们必须调用<code>UIApplication的beginReceivingRemoteControlEvents</code>方法；而如果要关闭远程控制事件的分发，则调用<code>endReceivingRemoteControlEvents</code>方法。<br>获取Undo管理器<br>默认情况下，程序的每一个window都有一个undo管理器，它是一个用于管理undo和redo操作的共享对象。然而，响应链上的任何对象的类都可以有自定义undo管理器。例如，<code>UITextField</code>的实例的自定义管理器在文件输入框放弃第一响应者状态时会被清理掉。当需要一个undo管理器时，请求会沿着响应链传递，然后UIWindow对象会返回一个可用的实例。<br><code>UIResponder</code>提供了一个只读方法来获取响应链中共享的undo管理器，<br><code>@property(nonatomic, readonly) NSUndoManager *undoManager</code><br>我们可以在自己的视图控制器中添加undo管理器来执行其对应的视图的undo和redo操作。</p>
+<h3 id="验证命令"><a href="#验证命令" class="headerlink" title="验证命令"></a>验证命令</h3><p>在我们的应用中，经常会处理各种菜单命令，如文本输入框的”复制”、”粘贴”等。<code>UIResponder</code>为此提供了两个方法来支持此类操作。首先使用以下方法可以启动或禁用指定的命令：<br><code>- (BOOL)canPerformAction:(SEL)action withSender:(id)sender</code><br>该方法默认返回YES，我们的类可以通过某种途径处理这个命令，包括类本身或者其下一个响应者。子类可以重写这个方法来开启菜单命令。例如，如果我们希望菜单支持”Copy”而不支持”Paser”，则在我们的子类中实现该方法。需要注意的是，即使在子类中禁用某个命令，在响应链上的其它响应者也可能会处理这些命令。<br>另外，我们可以使用以下方法来获取可以响应某一行为的接收者：<br><code>- (id)targetForAction:(SEL)action withSender:(id)sender</code><br>在对象需要调用一个action操作时调用该方法。默认的实现是调用<code>canPerformAction:withSender:</code>方法来确定对象是否可以调用action操作。如果可以，则返回对象本身，否则将请求传递到响应链上。如果我们想要重写目标的选择方式，则应该重写这个方法。下面这段代码演示了一个文本输入域禁用拷贝/粘贴操作：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">- (id)targetForAction:(SEL)action withSender:(id)sender</span><br><span class="line">&#123;	UIMenuController *menuController &#x3D; [UIMenuController sharedMenuController];</span><br><span class="line">	if (action &#x3D;&#x3D; @selector(selectAll:) || action &#x3D;&#x3D; @selector(paste:) ||action &#x3D;&#x3D; @selector(copy:) || action&#x3D;&#x3D;@selector(cut:))</span><br><span class="line">   &#123;		</span><br><span class="line">          if (menuController) </span><br><span class="line">                &#123;	</span><br><span class="line">                      [UIMenuController sharedMenuController].menuVisible &#x3D; NO;</span><br><span class="line">                &#125;	</span><br><span class="line">	     return nil;</span><br><span class="line">   &#125;</span><br><span class="line">	return [super targetForAction:action withSender:sender];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="访问快捷键命令"><a href="#访问快捷键命令" class="headerlink" title="访问快捷键命令"></a>访问快捷键命令</h3><p>我们的应用可以支持外部设备，包括外部键盘。在使用外部键盘时，使用快捷键可以大大提高我们的输入效率。因此从iOS7后，<code>UIResponder</code>类新增了一个只读属性<code>keyCommands</code>，来定义一个响应者支持的快捷键，其声明如下：<br><code>@property(nonatomic, readonly) NSArray *keyCommands</code><br>一个支持硬件键盘命令的响应者对象可以重新定义这个方法并使用它来返回一个其所支持快捷键对象(<code>UIKeyCommand</code>)的数组。每一个快捷键命令表示识别的键盘序列及响应者的操作方法。<br>我们用这个方法返回的快捷键命令数组被用于整个响应链。当与快捷键命令对象匹配的快捷键被按下时，UIKit会沿着响应链查找实现了响应行为方法的对象。它调用找到的第一个对象的方法并停止事件的处理。</p>
+<h3 id="管理文本输入模式"><a href="#管理文本输入模式" class="headerlink" title="管理文本输入模式"></a>管理文本输入模式</h3><p>文本输入模式标识当响应者激活时的语言及显示的键盘。<code>UIResponder</code>为此定义了一个属性来返回响应者对象的文本输入模式：<br><code>@property(nonatomic, readonly, retain) UITextInputMode *textInputMode</code><br>对于响应者而言，系统通常显示一个基于用户语言设置的键盘。我们可以重新定义这个属性，并让它返回一个不同的文本输入模式，以让我们的响应者使用一个特定的键盘。用户在响应者被激活时仍然可以改变键盘，在切换到另一个响应者时，可以再恢复到指定的键盘。<br>如果我们想让UIKit来跟踪这个响应者的文本输入模式，我们可以通过<code>textInputContextIdentifier</code>属性来设置一个标识，该属性的声明如下：<br><code>@property(nonatomic, readonly, retain) NSString *textInputContextIdentifier</code><br>该标识指明响应者应保留文本输入模式的信息。在跟踪模式下，任何对文本输入模式的修改都会记录下来，当响应者激活时再用于恢复处理。<br>为了从程序的user default中清理输入模式信息，UIResponder定义了一个类方法，其声明如下：<br><code>+ (void)clearTextInputContextIdentifier:(NSString *)identifier</code><br>调用这个方法可以从程序的user default中移除与指定标识相关的所有文本输入模式。移除这些信息会让响应者重新使用默认的文本输入模式。</p>
+<h3 id="支持User-Activities"><a href="#支持User-Activities" class="headerlink" title="支持User Activities"></a>支持User Activities</h3><p>从iOS 8起，苹果为我们提供了一个非常棒的功能，即Handoff。使用这一功能，我们可以在一部iOS设备的某个应用上开始做一件事，然后在另一台iOS设备上继续做这件事。Handoff的基本思想是用户在一个应用里所做的任何操作都可以看作是一个Activity，一个Activity可以和一个特定iCloud用户的多台设备关联起来。在编写一个支持Handoff的应用时，会有以下三个交互事件：<br>为将在另一台设备上继续做的事创建一个新的User Activity；<br>当需要时，用新的数据更新已有的User Activity；<br>把一个User Activity传递到另一台设备上。<br>为了支持这些交互事件，在iOS 8后，UIResponder类新增了几个方法，我们在此不讨论这几个方法的实际使用，想了解更多的话，可以参考 iOS 8 Handoff 开发指南 。我们在此只是简单描述一下这几个方法。<br>在UIResponder中，已经为我们提供了一个userActivity属性，它是一个NSUserActivity对象。因此我们在UIResponder的子类中不需要再去声明一个userActivity属性，直接使用它就行。其声明如下：<br><code>@property(nonatomic, retain) NSUserActivity *userActivity</code><br>由UIKit管理的User Activities会在适当的时间自动保存。一般情况下，我们可以重写UIResponder类的<code>updateUserActivityState:</code>方法来延迟添加表示User Activity的状态数据。当我们不再需要一个User Activity时，我们可以设置userActivity属性为nil。任何由UIKit管理的<code>NSUserActivity</code>对象，如果它没有相关的响应者，则会自动失效。<br>另外，多个响应者可以共享一个<code>NSUserActivity</code>实例。<br>上面提到的<code>updateUserActivityState:</code>是用于更新给定的User Activity的状态。其定义如下：<br><code>- (void)updateUserActivityState:(NSUserActivity *)activity</code><br>子类可以重写这个方法来按照我们的需要更新给定的User Activity。我们需要使用<code>NSUserActivity</code>对象的<code>addUserInfoEntriesFromDictionary:</code>方法来添加表示用户Activity的状态。<br>在我们修改了User Activity的状态后，如果想将其恢复到某个状态，则可以使用以下方法：<br><code>- (void)restoreUserActivityState:(NSUserActivity *)activity 子类可以重写这个方法来使用给定User Activity的恢复响应者</code>的状态。系统会在接收到数据时，将数据传递给<code>application:continueUserActivity:restorationHandler:</code>以做处理。我们重写时应该使用存储在user activity的<code>userInfo</code>字典中的状态数据来恢复对象。当然，我们也可以直接调用这个方法。<br>参考</p>
+<p><a target="_blank" rel="noopener" href="http://www.th7.cn/Program/IOS/201503/404749.shtml">参考 :  UIResponder </a></p>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="http://www.yqblog.cn">杨庆</a>
+            <p>原文链接：<a href="http://www.yqblog.cn/2021/03/18/UIResponder/">http://www.yqblog.cn/2021/03/18/UIResponder/</a>
+            <p>发表日期：<a href="http://www.yqblog.cn/2021/03/18/UIResponder/">March 18th 2021, 2:59:47 pm</a>
+            <p>更新日期：<a href="http://www.yqblog.cn/2021/03/18/UIResponder/">April 19th 2022, 11:47:39 pm</a>
+            <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2021/03/18/UIWindow/" title= "UIWindow">
+                    <div class="nextTitle">UIWindow</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2021/03/18/Swift-%E4%BC%98%E9%9B%85%E4%BD%BF%E7%94%A8-ReuseableIdentifier/" title= "Swift 优雅使用 ReuseableIdentifier">
+                    <div class="prevTitle">Swift 优雅使用 ReuseableIdentifier</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- gitalk评论 -->
+
+    <!-- utteranc评论 -->
+
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <div id="comment"></div>
+    <script>
+    new Valine({
+        el: '#comment' ,
+        notify:false, 
+        verify:false, 
+        appId: "KHTwH8TUp0CNW5DbF57hLh0W-gzGzoHsz",
+        appKey: "2SurPVIS5wUTgNqi23FEoSqs",
+        placeholder: "我有一个大胆的想法💡",
+        path:window.location.pathname, 
+        avatar:'mm' 
+    });
+    </script>
+
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:mafiapple@icloud.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/mafiaios" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/assets/weixin_qr.png" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#UIResponder"><span class="toc-number">1.</span> <span class="toc-text">UIResponder</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%A1%E7%90%86%E5%93%8D%E5%BA%94%E9%93%BE"><span class="toc-number">1.0.1.</span> <span class="toc-text">管理响应链</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%A1%E7%90%86%E8%BE%93%E5%85%A5%E8%A7%86%E5%9B%BE"><span class="toc-number">1.0.2.</span> <span class="toc-text">管理输入视图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%93%8D%E5%BA%94%E8%A7%A6%E6%91%B8%E4%BA%8B%E4%BB%B6"><span class="toc-number">1.0.3.</span> <span class="toc-text">响应触摸事件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%93%8D%E5%BA%94%E7%A7%BB%E5%8A%A8%E4%BA%8B%E4%BB%B6"><span class="toc-number">1.0.4.</span> <span class="toc-text">响应移动事件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%93%8D%E5%BA%94%E8%BF%9C%E7%A8%8B%E6%8E%A7%E5%88%B6%E4%BA%8B%E4%BB%B6"><span class="toc-number">1.0.5.</span> <span class="toc-text">响应远程控制事件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81%E5%91%BD%E4%BB%A4"><span class="toc-number">1.0.6.</span> <span class="toc-text">验证命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BF%E9%97%AE%E5%BF%AB%E6%8D%B7%E9%94%AE%E5%91%BD%E4%BB%A4"><span class="toc-number">1.0.7.</span> <span class="toc-text">访问快捷键命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%A1%E7%90%86%E6%96%87%E6%9C%AC%E8%BE%93%E5%85%A5%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.0.8.</span> <span class="toc-text">管理文本输入模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%94%AF%E6%8C%81User-Activities"><span class="toc-number">1.0.9.</span> <span class="toc-text">支持User Activities</span></a></li></ol></li></ol></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 49
+        </div>
+        <!-- search  -->
+        
+            <div class="site-search popup-trigger">
+                <span class="iconfont-archer search-icon">&#xe627;</span>
+            </div>
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2022 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/31</span><a class="archive-post-title" href= "/2022/03/31/Swift%E4%BD%BF%E7%94%A8AutoLayout%E5%B8%83%E5%B1%80/" >Swift使用AutoLayout布局</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/31</span><a class="archive-post-title" href= "/2022/03/31/tableView%E5%B5%8C%E5%A5%97collectionView/" >tableView嵌套collectionView</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/31</span><a class="archive-post-title" href= "/2022/03/31/KVO/" >KVO</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/25</span><a class="archive-post-title" href= "/2022/03/25/%E5%A4%9A%E7%BA%BF%E7%A8%8B-%E4%BF%A1%E5%8F%B7%E9%87%8FDispatch-Semaphore/" >多线程-信号量Dispatch_Semaphore</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/24</span><a class="archive-post-title" href= "/2022/03/24/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8B%E7%BA%BF%E7%A8%8B%E7%BB%84/" >多线程之线程组</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/24</span><a class="archive-post-title" href= "/2022/03/24/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8B%E6%A0%85%E6%A0%8F%E5%87%BD%E6%95%B0/" >多线程之栅栏函数</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/23</span><a class="archive-post-title" href= "/2022/03/23/%E6%AD%BB%E9%94%81/" >死锁</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/22</span><a class="archive-post-title" href= "/2022/03/22/%E4%BB%BB%E5%8A%A1%E9%98%9F%E5%88%97/" >任务队列</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/22</span><a class="archive-post-title" href= "/2022/03/22/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" >多线程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/22</span><a class="archive-post-title" href= "/2022/03/22/%E6%95%B0%E6%8D%AE%E5%AE%89%E5%85%A8%E5%8F%8A%E5%8A%A0%E5%AF%86/" >数据安全及加密</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2021 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/03</span><a class="archive-post-title" href= "/2021/12/03/iOS15%E9%80%82%E9%85%8D%E6%96%B0%E5%A2%9E%E7%89%B9%E6%80%A7/" >iOS15适配新增特性</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/28</span><a class="archive-post-title" href= "/2021/09/28/tableView-%E5%A4%84%E7%90%86%E9%94%AE%E7%9B%98%E5%BC%B9%E5%87%BA%E6%8C%A1%E4%BD%8F%E8%BE%93%E5%85%A5%E6%A1%86/" >tableView 处理键盘弹出挡住输入框</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/28</span><a class="archive-post-title" href= "/2021/09/28/%E4%BA%94%E6%98%9F%E5%A5%BD%E8%AF%84%E7%9A%84%E8%AF%84%E8%AE%BA%E6%8E%A7%E4%BB%B6/" >五星好评的评论控件</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/28</span><a class="archive-post-title" href= "/2021/09/28/%E5%B8%A6%E6%A0%87%E7%AD%BE%E9%80%89%E6%8B%A9%E5%8A%9F%E8%83%BD%E7%9A%84%E5%88%97%E8%A1%A8%E8%A7%86%E5%9B%BE/" >带标签选择功能的列表视图</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/22</span><a class="archive-post-title" href= "/2021/07/22/iOS%E5%BC%80%E5%8F%91Skeleton%E9%AA%A8%E6%9E%B6%E8%A7%86%E5%9B%BE%E4%BD%BF%E7%94%A8/" >iOS开发Skeleton骨架视图使用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/20</span><a class="archive-post-title" href= "/2021/07/20/%E4%B8%A4%E5%8F%B0%E7%94%B5%E8%84%91%E5%90%8C%E6%AD%A5%E5%8D%9A%E5%AE%A2/" >两台电脑同步博客</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/23</span><a class="archive-post-title" href= "/2021/06/23/M1%E8%8A%AF%E7%89%87MBP%E5%8F%96%E6%B6%88%E7%B3%BB%E7%BB%9F%E6%9B%B4%E6%96%B0%E5%B0%8F%E7%BA%A2%E7%82%B9/" >M1芯片MBP取消系统更新小红点</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/22</span><a class="archive-post-title" href= "/2021/06/22/M1%E7%89%88MacBook-Pro%E9%85%8D%E7%BD%AEcocoapods/" >M1版MacBook Pro配置cocoapods</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/22</span><a class="archive-post-title" href= "/2021/06/22/M1%E8%8A%AF%E7%89%87Mac%E6%A0%BC%E5%BC%8F%E5%8C%96%E7%A1%AC%E7%9B%98%E5%88%9B%E5%BB%BA%E8%B4%A6%E6%88%B7%E6%8A%A5%E9%94%99/" >M1芯片Mac格式化硬盘创建账户报错</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/22</span><a class="archive-post-title" href= "/2021/06/22/iTerm-M1%E8%8A%AF%E7%89%87%E9%85%8D%E7%BD%AE/" >iTerm M1芯片配置</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/23</span><a class="archive-post-title" href= "/2021/04/23/swift-Codable/" >Swift语法(2)- Codable</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/22</span><a class="archive-post-title" href= "/2021/04/22/Charles%E9%85%8D%E7%BD%AE%E6%8A%93%E5%8C%85/" >Charles配置抓包</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/22</span><a class="archive-post-title" href= "/2021/04/22/Swift%E8%AF%AD%E6%B3%95-1/" >Swift语法(1)- Mirror</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/16</span><a class="archive-post-title" href= "/2021/04/16/rxSwift%E5%86%99%E4%B8%80%E4%B8%AA%E5%80%92%E8%AE%A1%E6%97%B6%E5%AE%9A%E6%97%B6%E5%99%A8/" >rxSwift写一个倒计时定时器?</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/15</span><a class="archive-post-title" href= "/2021/04/15/RxSwift%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C%E7%AC%A6/" >RxSwift常用操作符</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/07</span><a class="archive-post-title" href= "/2021/04/07/Moya%E5%A4%9ATarget%E8%B0%83%E7%94%A8%E7%BB%9F%E4%B8%80%E6%8E%A5%E5%8F%A3/" >Moya(4) 开发应用篇3</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/07</span><a class="archive-post-title" href= "/2021/04/07/%E6%B6%88%E6%81%AF%E6%8E%A8%E9%80%81%E5%A4%84%E7%90%86/" >消息推送处理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/06</span><a class="archive-post-title" href= "/2021/04/06/AVCapturePhotoOutput/" >Swift 相机配置 AVCapturePhotoOutput</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/02</span><a class="archive-post-title" href= "/2021/04/02/iOS%E5%B8%B8%E8%A7%81%E5%85%B3%E9%94%AE%E5%AD%97/" >掌握iOS常见关键字</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/02</span><a class="archive-post-title" href= "/2021/04/02/iOS-%E4%BA%8B%E4%BB%B6%E5%88%86%E5%8F%91%E6%9C%BA%E5%88%B6/" >iOS 事件分发机制</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/01</span><a class="archive-post-title" href= "/2021/04/01/ios14laterPresent/" >Xib开发 - 弹出视图</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/26</span><a class="archive-post-title" href= "/2021/03/26/Moya%E5%BA%94%E7%94%A8-2/" >Moya(3) 开发应用篇2</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/23</span><a class="archive-post-title" href= "/2021/03/23/Moya%E5%BA%94%E7%94%A8/" >Moya(3) 开发应用篇1</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/22</span><a class="archive-post-title" href= "/2021/03/22/Moya%E5%8E%9F%E7%90%86/" >Moya(2) 和Alafmofire关系</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/22</span><a class="archive-post-title" href= "/2021/03/22/Moya%E5%88%9D%E8%AF%86/" >Moya(1) 初识</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/19</span><a class="archive-post-title" href= "/2021/03/19/Swift-POP/" >Swift从快速加载xib理解 POP</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/19</span><a class="archive-post-title" href= "/2021/03/19/Swift-Generic/" >Swift- 泛型(1)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/18</span><a class="archive-post-title" href= "/2021/03/18/UIWindow/" >UIWindow</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/18</span><a class="archive-post-title" href= "/2021/03/18/Swift-%E4%BC%98%E9%9B%85%E4%BD%BF%E7%94%A8-ReuseableIdentifier/" >Swift 优雅使用 ReuseableIdentifier</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/18</span><a class="archive-post-title" href= "/2021/03/18/UIResponder/" >UIResponder</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/18</span><a class="archive-post-title" href= "/2021/03/18/class-struct/" >类和结构体区别1</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/18</span><a class="archive-post-title" href= "/2021/03/18/delegate/" >Delegate</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/2021/03/17/replace-cname-question/" >Hexo- 解析域名到自己的博客(2)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/16</span><a class="archive-post-title" href= "/2021/03/16/hexo-setting-domain/" >Hexo- 解析域名到自己的博客(1)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/11</span><a class="archive-post-title" href= "/2021/03/11/iOS-%E5%BC%80%E5%8F%91-xib-%E5%B8%83%E5%B1%80-UIScrollview/" >Xib 布局 UIScrollview</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/11</span><a class="archive-post-title" href= "/2021/03/11/hexo-%E5%A6%82%E4%BD%95%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87/" >hexo- 文章插入图片</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2021/03/03/Hexo%20%E4%B8%A4%E5%8F%B0%E7%94%B5%E8%84%91%E5%90%8C%E6%AD%A5%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/" >Hexo- 两台电脑同步问题解决</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2021/03/03/Hexo%20%E5%AE%89%E8%A3%85/" >Hexo- 安装</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2021/03/03/Hexo%22%E5%88%86%E7%B1%BB%22%E5%92%8C%22Tag%22/" >Hexo- 文章添加Tag,category</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
+    
+        <span class="sidebar-tag-name" data-tags="iOS"><span class="iconfont-archer">&#xe606;</span>iOS</span>
+    
+        <span class="sidebar-tag-name" data-tags="Charles"><span class="iconfont-archer">&#xe606;</span>Charles</span>
+    
+        <span class="sidebar-tag-name" data-tags="cocoapods"><span class="iconfont-archer">&#xe606;</span>cocoapods</span>
+    
+        <span class="sidebar-tag-name" data-tags="系统"><span class="iconfont-archer">&#xe606;</span>系统</span>
+    
+        <span class="sidebar-tag-name" data-tags="iOS高级知识点"><span class="iconfont-archer">&#xe606;</span>iOS高级知识点</span>
+    
+        <span class="sidebar-tag-name" data-tags="Moya"><span class="iconfont-archer">&#xe606;</span>Moya</span>
+    
+        <span class="sidebar-tag-name" data-tags="RxSwift"><span class="iconfont-archer">&#xe606;</span>RxSwift</span>
+    
+        <span class="sidebar-tag-name" data-tags="Swift语法"><span class="iconfont-archer">&#xe606;</span>Swift语法</span>
+    
+        <span class="sidebar-tag-name" data-tags="Swift"><span class="iconfont-archer">&#xe606;</span>Swift</span>
+    
+        <span class="sidebar-tag-name" data-tags="iOS原理"><span class="iconfont-archer">&#xe606;</span>iOS原理</span>
+    
+        <span class="sidebar-tag-name" data-tags="xib"><span class="iconfont-archer">&#xe606;</span>xib</span>
+    
+        <span class="sidebar-tag-name" data-tags="iOS15"><span class="iconfont-archer">&#xe606;</span>iOS15</span>
+    
+        <span class="sidebar-tag-name" data-tags="软件"><span class="iconfont-archer">&#xe606;</span>软件</span>
+    
+        <span class="sidebar-tag-name" data-tags="rxSwift"><span class="iconfont-archer">&#xe606;</span>rxSwift</span>
+    
+        <span class="sidebar-tag-name" data-tags="iOS高级控件"><span class="iconfont-archer">&#xe606;</span>iOS高级控件</span>
+    
+        <span class="sidebar-tag-name" data-tags="消息推送"><span class="iconfont-archer">&#xe606;</span>消息推送</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="Hexo"><span class="iconfont-archer">&#xe60a;</span>Hexo</span>
+    
+        <span class="sidebar-category-name" data-categories="iOS"><span class="iconfont-archer">&#xe60a;</span>iOS</span>
+    
+        <span class="sidebar-category-name" data-categories="Swift语法"><span class="iconfont-archer">&#xe60a;</span>Swift语法</span>
+    
+        <span class="sidebar-category-name" data-categories="iOS原理"><span class="iconfont-archer">&#xe60a;</span>iOS原理</span>
+    
+        <span class="sidebar-category-name" data-categories="iOS开发"><span class="iconfont-archer">&#xe60a;</span>iOS开发</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "杨庆"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+        <div class="site-search">
+  <div class="algolia-popup popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="iconfont-archer">&#xe609;</i>
+    </span>
+  </div>
+</div>
+        <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.8.0/dist/instantsearch.min.js" defer></script>
+        <script src="/scripts/search.js" defer></script>
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+

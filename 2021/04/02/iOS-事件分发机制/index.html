@@ -1,0 +1,1737 @@
+<!DOCTYPE html>
+<html lang="default">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    <meta name="author" content="杨庆">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="杨庆">
+    
+    <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
+    
+    <meta name="description" content="杨庆的博客">
+    <meta name="description" content="事件分发机制事件分发机制 hit-Testing. 当我们点击了iOS设备的屏幕 ， UIKit 就会生成一个事件对象UIEvent , 然后会把这个event分发给当前active活动的app. 告知当前活动的app有事件以后 , UIApplication单例就会从事件队列中去取最新的事件 , 然后分发给能够处理该事件的对象 . 这些事件按照先进先出的顺序来处理. 当处理事件时,程序的UIAp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS 事件分发机制">
+<meta property="og:url" content="http://www.yqblog.cn/2021/04/02/iOS-%E4%BA%8B%E4%BB%B6%E5%88%86%E5%8F%91%E6%9C%BA%E5%88%B6/index.html">
+<meta property="og:site_name" content="杨庆的个人博客">
+<meta property="og:description" content="事件分发机制事件分发机制 hit-Testing. 当我们点击了iOS设备的屏幕 ， UIKit 就会生成一个事件对象UIEvent , 然后会把这个event分发给当前active活动的app. 告知当前活动的app有事件以后 , UIApplication单例就会从事件队列中去取最新的事件 , 然后分发给能够处理该事件的对象 . 这些事件按照先进先出的顺序来处理. 当处理事件时,程序的UIAp">
+<meta property="og:locale">
+<meta property="og:image" content="http://www.yqblog.cn/2021/04/02/iOS-%E4%BA%8B%E4%BB%B6%E5%88%86%E5%8F%91%E6%9C%BA%E5%88%B6/hitTest.png">
+<meta property="og:image" content="http://www.yqblog.cn/2021/04/02/iOS-%E4%BA%8B%E4%BB%B6%E5%88%86%E5%8F%91%E6%9C%BA%E5%88%B6/responseChain.png">
+<meta property="og:image" content="http://www.yqblog.cn/2021/04/02/iOS-%E4%BA%8B%E4%BB%B6%E5%88%86%E5%8F%91%E6%9C%BA%E5%88%B6/touchbegain.png">
+<meta property="article:published_time" content="2021-04-02T02:25:43.000Z">
+<meta property="article:modified_time" content="2022-04-19T15:47:39.071Z">
+<meta property="article:author" content="杨庆">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="iOS原理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.yqblog.cn/2021/04/02/iOS-%E4%BA%8B%E4%BB%B6%E5%88%86%E5%8F%91%E6%9C%BA%E5%88%B6/hitTest.png">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    
+    <title>iOS 事件分发机制 · 杨庆的博客</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= "/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="stylesheet" href= "/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href= "/assets/profile.ico" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
+    <link rel="preload" href="/scripts/main.js" as="script" />
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >扬庆の博客</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">iOS 事件分发机制</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>扬庆の博客</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            iOS 事件分发机制
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "iOS">iOS</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "iOS原理">iOS原理</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">883</span>阅读时长: <span class="post-count reading-time">3 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2021/04/02</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="事件分发机制"><a href="#事件分发机制" class="headerlink" title="事件分发机制"></a>事件分发机制</h1><h3 id="事件分发机制-hit-Testing"><a href="#事件分发机制-hit-Testing" class="headerlink" title="事件分发机制 hit-Testing."></a>事件分发机制 <strong>hit-Testing.</strong></h3><p> 当我们点击了iOS设备的屏幕 ， UIKit 就会生成一个事件对象UIEvent , 然后会把这个event分发给当前active活动的app.</p>
+<p>告知当前活动的app有事件以后 , UIApplication单例就会从<strong>事件队列</strong>中去取最新的事件 , 然后分发给能够处理该事件的对象 . 这些事件按照先进先出的顺序来处理. 当处理事件时,程序的<code>UIApplciation</code>对象会从队列头部取出一个事件对象 , 将其分发出去 .<code>UIApplication</code>获取到Event后 , <code>Application</code>就纠结于到底要把这个事件传递给谁,这时候就要依靠<a target="_blank" rel="noopener" href="http://www.cocoachina.com/ios/20160108/14897.html"><strong>HitTest</strong></a> 来决定了. </p>
+<blockquote>
+<p>app - UIApplication - 拿到 UIEvent -  传递给视图</p>
+</blockquote>
+<p>iOS中,hit-Testing 的作用就是找出这个触摸点下面的view是什么, HitTest会检测这个点是不是发生在这个View上, 如果是的话,就会去遍历这个view的subviews,直到找到最小的能够处理事件的view , 如果整了一圈没有找到能够处理的view, 则返回自身 . 最后(确定了hit-TestView) <strong>UIApplication</strong>会将事件给这个<strong>view</strong>进行处理.</p>
+<blockquote>
+<p>找到处理事件的 view 从底层向上寻找</p>
+</blockquote>
+<p><img src="/2021/04/02/iOS-%E4%BA%8B%E4%BB%B6%E5%88%86%E5%8F%91%E6%9C%BA%E5%88%B6/hitTest.png" alt="hitTest"></p>
+<hr>
+<h3 id="事件传递"><a href="#事件传递" class="headerlink" title="事件传递"></a>事件传递</h3><p><strong>第一步确定好了处理事件的hit-test , 接着就是处理事件的顺序</strong>, 正好跟事件的分发机制相反, 最有机会处理事件的对象是hit-test视图或第一响应者. 如果这两个都不能处理事件 , UIKit就会将事件传递到<a target="_blank" rel="noopener" href="http://www.cocoachina.com/ios/20160113/14896.html">响应链</a>中的下一个响应者. 每一个响应者确定其是否要处理事件或者通过<strong>nextResponder</strong>方法将其传递给下一个响应者 . 这一过程一直持续到走到能处理事件的响应者对象, 或者最终没有找到响应者.</p>
+<blockquote>
+<p>视图事件传递 从最上层往下传递</p>
+</blockquote>
+<p><img src="/2021/04/02/iOS-%E4%BA%8B%E4%BB%B6%E5%88%86%E5%8F%91%E6%9C%BA%E5%88%B6/responseChain.png" alt="reponse chain"></p>
+<h4 id="响应链"><a href="#响应链" class="headerlink" title="响应链"></a>响应链</h4><p>例如: 微信点击 扫一扫 就打开二维码扫描视图</p>
+<p>在我们点击屏幕的时候 , iPhoneOS获取到了用户进行了”单击”行为, 操作系统将包含这些点击事件的信息包装成UITouch或者UIEvent形式的实例, 然后找到当前运行的程序,逐级寻找能够响应这个事件的对象,直到没有响应者响应. 这一寻找过程 被称作事件的响应链 . </p>
+<blockquote>
+<p>总结:  某个控件在接收到点击事件时的处理</p>
+</blockquote>
+<h3 id="hitTest-withEvent-方法的处理流程"><a href="#hitTest-withEvent-方法的处理流程" class="headerlink" title="hitTest:withEvent:方法的处理流程"></a><code>hitTest:withEvent:</code>方法的处理流程</h3><p>先调用<code>pointInside:withEvent:</code>判断触摸点是否在当前视图内</p>
+<ol>
+<li><p>如果返回 <strong>YES</strong>，那么该视图的所有子视图调用<code>hitTest:withEvent</code>,调用顺序由层级低到高（top-&gt;bottom）依次调用。</p>
+</li>
+<li><p>如果返回 <strong>NO</strong>，那么<code>hitTest:withEvent</code>返回nil，该视图的所有子视图的分支全部被忽略</p>
+</li>
+</ol>
+<p>如果某视图的<code>pointInside:withEvent:</code>返回<strong>YES</strong>，并且他的所有子视图<code>hitTest:withEvent:</code>都返回nil，或者该视图没有子视图，那么该视图的<code>hitTest:withEvent:</code>返回自己。</p>
+<p>如果子视图的<code>hitTest:withEvent:</code>返回非空对象，那么当前视图的<code>hitTest:withEvent:</code>也返回这个对象，也就是沿原路回推，最终将<code>hit-test view</code>传递给<code>keyWindow</code></p>
+<h3 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h3><p>效果 ==&gt; 点在贝塞尔曲线内才能处理touch事件: </p>
+<p>点在不在规定的区域内???  如果是就返回<strong>YES,<strong>不是返回</strong>NO</strong> </p>
+<p><img src="/2021/04/02/iOS-%E4%BA%8B%E4%BB%B6%E5%88%86%E5%8F%91%E6%9C%BA%E5%88%B6/touchbegain.png" alt="touchbegin"></p>
+<p><strong>LLSHitTestView</strong> 是一个测试<strong>hitTest</strong>返回的<strong>View</strong>的类</p>
+<p>参考<a target="_blank" rel="noopener" href="http://www.cocoachina.com/ios/20160108/14897.html">iOS-hitTest:withEvent与自定义hit-testing规则</a></p>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="http://www.yqblog.cn">杨庆</a>
+            <p>原文链接：<a href="http://www.yqblog.cn/2021/04/02/iOS-%E4%BA%8B%E4%BB%B6%E5%88%86%E5%8F%91%E6%9C%BA%E5%88%B6/">http://www.yqblog.cn/2021/04/02/iOS-%E4%BA%8B%E4%BB%B6%E5%88%86%E5%8F%91%E6%9C%BA%E5%88%B6/</a>
+            <p>发表日期：<a href="http://www.yqblog.cn/2021/04/02/iOS-%E4%BA%8B%E4%BB%B6%E5%88%86%E5%8F%91%E6%9C%BA%E5%88%B6/">April 2nd 2021, 10:25:43 am</a>
+            <p>更新日期：<a href="http://www.yqblog.cn/2021/04/02/iOS-%E4%BA%8B%E4%BB%B6%E5%88%86%E5%8F%91%E6%9C%BA%E5%88%B6/">April 19th 2022, 11:47:39 pm</a>
+            <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2021/04/02/iOS%E5%B8%B8%E8%A7%81%E5%85%B3%E9%94%AE%E5%AD%97/" title= "掌握iOS常见关键字">
+                    <div class="nextTitle">掌握iOS常见关键字</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2021/04/01/ios14laterPresent/" title= "Xib开发 - 弹出视图">
+                    <div class="prevTitle">Xib开发 - 弹出视图</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- gitalk评论 -->
+
+    <!-- utteranc评论 -->
+
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <div id="comment"></div>
+    <script>
+    new Valine({
+        el: '#comment' ,
+        notify:false, 
+        verify:false, 
+        appId: "KHTwH8TUp0CNW5DbF57hLh0W-gzGzoHsz",
+        appKey: "2SurPVIS5wUTgNqi23FEoSqs",
+        placeholder: "我有一个大胆的想法💡",
+        path:window.location.pathname, 
+        avatar:'mm' 
+    });
+    </script>
+
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:mafiapple@icloud.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/mafiaios" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/assets/weixin_qr.png" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E5%88%86%E5%8F%91%E6%9C%BA%E5%88%B6"><span class="toc-number">1.</span> <span class="toc-text">事件分发机制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E5%88%86%E5%8F%91%E6%9C%BA%E5%88%B6-hit-Testing"><span class="toc-number">1.0.1.</span> <span class="toc-text">事件分发机制 hit-Testing.</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E4%BC%A0%E9%80%92"><span class="toc-number">1.0.2.</span> <span class="toc-text">事件传递</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%93%8D%E5%BA%94%E9%93%BE"><span class="toc-number">1.0.2.1.</span> <span class="toc-text">响应链</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hitTest-withEvent-%E6%96%B9%E6%B3%95%E7%9A%84%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B"><span class="toc-number">1.0.3.</span> <span class="toc-text">hitTest:withEvent:方法的处理流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Demo"><span class="toc-number">1.0.4.</span> <span class="toc-text">Demo</span></a></li></ol></li></ol></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 49
+        </div>
+        <!-- search  -->
+        
+            <div class="site-search popup-trigger">
+                <span class="iconfont-archer search-icon">&#xe627;</span>
+            </div>
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2022 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/31</span><a class="archive-post-title" href= "/2022/03/31/Swift%E4%BD%BF%E7%94%A8AutoLayout%E5%B8%83%E5%B1%80/" >Swift使用AutoLayout布局</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/31</span><a class="archive-post-title" href= "/2022/03/31/tableView%E5%B5%8C%E5%A5%97collectionView/" >tableView嵌套collectionView</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/31</span><a class="archive-post-title" href= "/2022/03/31/KVO/" >KVO</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/25</span><a class="archive-post-title" href= "/2022/03/25/%E5%A4%9A%E7%BA%BF%E7%A8%8B-%E4%BF%A1%E5%8F%B7%E9%87%8FDispatch-Semaphore/" >多线程-信号量Dispatch_Semaphore</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/24</span><a class="archive-post-title" href= "/2022/03/24/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8B%E7%BA%BF%E7%A8%8B%E7%BB%84/" >多线程之线程组</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/24</span><a class="archive-post-title" href= "/2022/03/24/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8B%E6%A0%85%E6%A0%8F%E5%87%BD%E6%95%B0/" >多线程之栅栏函数</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/23</span><a class="archive-post-title" href= "/2022/03/23/%E6%AD%BB%E9%94%81/" >死锁</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/22</span><a class="archive-post-title" href= "/2022/03/22/%E4%BB%BB%E5%8A%A1%E9%98%9F%E5%88%97/" >任务队列</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/22</span><a class="archive-post-title" href= "/2022/03/22/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" >多线程</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/22</span><a class="archive-post-title" href= "/2022/03/22/%E6%95%B0%E6%8D%AE%E5%AE%89%E5%85%A8%E5%8F%8A%E5%8A%A0%E5%AF%86/" >数据安全及加密</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2021 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/03</span><a class="archive-post-title" href= "/2021/12/03/iOS15%E9%80%82%E9%85%8D%E6%96%B0%E5%A2%9E%E7%89%B9%E6%80%A7/" >iOS15适配新增特性</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/28</span><a class="archive-post-title" href= "/2021/09/28/tableView-%E5%A4%84%E7%90%86%E9%94%AE%E7%9B%98%E5%BC%B9%E5%87%BA%E6%8C%A1%E4%BD%8F%E8%BE%93%E5%85%A5%E6%A1%86/" >tableView 处理键盘弹出挡住输入框</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/28</span><a class="archive-post-title" href= "/2021/09/28/%E4%BA%94%E6%98%9F%E5%A5%BD%E8%AF%84%E7%9A%84%E8%AF%84%E8%AE%BA%E6%8E%A7%E4%BB%B6/" >五星好评的评论控件</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/28</span><a class="archive-post-title" href= "/2021/09/28/%E5%B8%A6%E6%A0%87%E7%AD%BE%E9%80%89%E6%8B%A9%E5%8A%9F%E8%83%BD%E7%9A%84%E5%88%97%E8%A1%A8%E8%A7%86%E5%9B%BE/" >带标签选择功能的列表视图</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/22</span><a class="archive-post-title" href= "/2021/07/22/iOS%E5%BC%80%E5%8F%91Skeleton%E9%AA%A8%E6%9E%B6%E8%A7%86%E5%9B%BE%E4%BD%BF%E7%94%A8/" >iOS开发Skeleton骨架视图使用</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/20</span><a class="archive-post-title" href= "/2021/07/20/%E4%B8%A4%E5%8F%B0%E7%94%B5%E8%84%91%E5%90%8C%E6%AD%A5%E5%8D%9A%E5%AE%A2/" >两台电脑同步博客</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/23</span><a class="archive-post-title" href= "/2021/06/23/M1%E8%8A%AF%E7%89%87MBP%E5%8F%96%E6%B6%88%E7%B3%BB%E7%BB%9F%E6%9B%B4%E6%96%B0%E5%B0%8F%E7%BA%A2%E7%82%B9/" >M1芯片MBP取消系统更新小红点</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/22</span><a class="archive-post-title" href= "/2021/06/22/M1%E7%89%88MacBook-Pro%E9%85%8D%E7%BD%AEcocoapods/" >M1版MacBook Pro配置cocoapods</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/22</span><a class="archive-post-title" href= "/2021/06/22/M1%E8%8A%AF%E7%89%87Mac%E6%A0%BC%E5%BC%8F%E5%8C%96%E7%A1%AC%E7%9B%98%E5%88%9B%E5%BB%BA%E8%B4%A6%E6%88%B7%E6%8A%A5%E9%94%99/" >M1芯片Mac格式化硬盘创建账户报错</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/22</span><a class="archive-post-title" href= "/2021/06/22/iTerm-M1%E8%8A%AF%E7%89%87%E9%85%8D%E7%BD%AE/" >iTerm M1芯片配置</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/23</span><a class="archive-post-title" href= "/2021/04/23/swift-Codable/" >Swift语法(2)- Codable</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/22</span><a class="archive-post-title" href= "/2021/04/22/Charles%E9%85%8D%E7%BD%AE%E6%8A%93%E5%8C%85/" >Charles配置抓包</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/22</span><a class="archive-post-title" href= "/2021/04/22/Swift%E8%AF%AD%E6%B3%95-1/" >Swift语法(1)- Mirror</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/16</span><a class="archive-post-title" href= "/2021/04/16/rxSwift%E5%86%99%E4%B8%80%E4%B8%AA%E5%80%92%E8%AE%A1%E6%97%B6%E5%AE%9A%E6%97%B6%E5%99%A8/" >rxSwift写一个倒计时定时器?</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/15</span><a class="archive-post-title" href= "/2021/04/15/RxSwift%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C%E7%AC%A6/" >RxSwift常用操作符</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/07</span><a class="archive-post-title" href= "/2021/04/07/Moya%E5%A4%9ATarget%E8%B0%83%E7%94%A8%E7%BB%9F%E4%B8%80%E6%8E%A5%E5%8F%A3/" >Moya(4) 开发应用篇3</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/07</span><a class="archive-post-title" href= "/2021/04/07/%E6%B6%88%E6%81%AF%E6%8E%A8%E9%80%81%E5%A4%84%E7%90%86/" >消息推送处理</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/06</span><a class="archive-post-title" href= "/2021/04/06/AVCapturePhotoOutput/" >Swift 相机配置 AVCapturePhotoOutput</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/02</span><a class="archive-post-title" href= "/2021/04/02/iOS%E5%B8%B8%E8%A7%81%E5%85%B3%E9%94%AE%E5%AD%97/" >掌握iOS常见关键字</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/02</span><a class="archive-post-title" href= "/2021/04/02/iOS-%E4%BA%8B%E4%BB%B6%E5%88%86%E5%8F%91%E6%9C%BA%E5%88%B6/" >iOS 事件分发机制</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/01</span><a class="archive-post-title" href= "/2021/04/01/ios14laterPresent/" >Xib开发 - 弹出视图</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/26</span><a class="archive-post-title" href= "/2021/03/26/Moya%E5%BA%94%E7%94%A8-2/" >Moya(3) 开发应用篇2</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/23</span><a class="archive-post-title" href= "/2021/03/23/Moya%E5%BA%94%E7%94%A8/" >Moya(3) 开发应用篇1</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/22</span><a class="archive-post-title" href= "/2021/03/22/Moya%E5%8E%9F%E7%90%86/" >Moya(2) 和Alafmofire关系</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/22</span><a class="archive-post-title" href= "/2021/03/22/Moya%E5%88%9D%E8%AF%86/" >Moya(1) 初识</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/19</span><a class="archive-post-title" href= "/2021/03/19/Swift-POP/" >Swift从快速加载xib理解 POP</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/19</span><a class="archive-post-title" href= "/2021/03/19/Swift-Generic/" >Swift- 泛型(1)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/18</span><a class="archive-post-title" href= "/2021/03/18/UIWindow/" >UIWindow</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/18</span><a class="archive-post-title" href= "/2021/03/18/Swift-%E4%BC%98%E9%9B%85%E4%BD%BF%E7%94%A8-ReuseableIdentifier/" >Swift 优雅使用 ReuseableIdentifier</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/18</span><a class="archive-post-title" href= "/2021/03/18/UIResponder/" >UIResponder</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/18</span><a class="archive-post-title" href= "/2021/03/18/class-struct/" >类和结构体区别1</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/18</span><a class="archive-post-title" href= "/2021/03/18/delegate/" >Delegate</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/17</span><a class="archive-post-title" href= "/2021/03/17/replace-cname-question/" >Hexo- 解析域名到自己的博客(2)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/16</span><a class="archive-post-title" href= "/2021/03/16/hexo-setting-domain/" >Hexo- 解析域名到自己的博客(1)</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/11</span><a class="archive-post-title" href= "/2021/03/11/iOS-%E5%BC%80%E5%8F%91-xib-%E5%B8%83%E5%B1%80-UIScrollview/" >Xib 布局 UIScrollview</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/11</span><a class="archive-post-title" href= "/2021/03/11/hexo-%E5%A6%82%E4%BD%95%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87/" >hexo- 文章插入图片</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2021/03/03/Hexo%20%E4%B8%A4%E5%8F%B0%E7%94%B5%E8%84%91%E5%90%8C%E6%AD%A5%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/" >Hexo- 两台电脑同步问题解决</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2021/03/03/Hexo%20%E5%AE%89%E8%A3%85/" >Hexo- 安装</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/03</span><a class="archive-post-title" href= "/2021/03/03/Hexo%22%E5%88%86%E7%B1%BB%22%E5%92%8C%22Tag%22/" >Hexo- 文章添加Tag,category</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="Hexo"><span class="iconfont-archer">&#xe606;</span>Hexo</span>
+    
+        <span class="sidebar-tag-name" data-tags="iOS"><span class="iconfont-archer">&#xe606;</span>iOS</span>
+    
+        <span class="sidebar-tag-name" data-tags="Charles"><span class="iconfont-archer">&#xe606;</span>Charles</span>
+    
+        <span class="sidebar-tag-name" data-tags="cocoapods"><span class="iconfont-archer">&#xe606;</span>cocoapods</span>
+    
+        <span class="sidebar-tag-name" data-tags="系统"><span class="iconfont-archer">&#xe606;</span>系统</span>
+    
+        <span class="sidebar-tag-name" data-tags="iOS高级知识点"><span class="iconfont-archer">&#xe606;</span>iOS高级知识点</span>
+    
+        <span class="sidebar-tag-name" data-tags="Moya"><span class="iconfont-archer">&#xe606;</span>Moya</span>
+    
+        <span class="sidebar-tag-name" data-tags="RxSwift"><span class="iconfont-archer">&#xe606;</span>RxSwift</span>
+    
+        <span class="sidebar-tag-name" data-tags="Swift语法"><span class="iconfont-archer">&#xe606;</span>Swift语法</span>
+    
+        <span class="sidebar-tag-name" data-tags="Swift"><span class="iconfont-archer">&#xe606;</span>Swift</span>
+    
+        <span class="sidebar-tag-name" data-tags="iOS原理"><span class="iconfont-archer">&#xe606;</span>iOS原理</span>
+    
+        <span class="sidebar-tag-name" data-tags="xib"><span class="iconfont-archer">&#xe606;</span>xib</span>
+    
+        <span class="sidebar-tag-name" data-tags="iOS15"><span class="iconfont-archer">&#xe606;</span>iOS15</span>
+    
+        <span class="sidebar-tag-name" data-tags="软件"><span class="iconfont-archer">&#xe606;</span>软件</span>
+    
+        <span class="sidebar-tag-name" data-tags="rxSwift"><span class="iconfont-archer">&#xe606;</span>rxSwift</span>
+    
+        <span class="sidebar-tag-name" data-tags="iOS高级控件"><span class="iconfont-archer">&#xe606;</span>iOS高级控件</span>
+    
+        <span class="sidebar-tag-name" data-tags="消息推送"><span class="iconfont-archer">&#xe606;</span>消息推送</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="Hexo"><span class="iconfont-archer">&#xe60a;</span>Hexo</span>
+    
+        <span class="sidebar-category-name" data-categories="iOS"><span class="iconfont-archer">&#xe60a;</span>iOS</span>
+    
+        <span class="sidebar-category-name" data-categories="Swift语法"><span class="iconfont-archer">&#xe60a;</span>Swift语法</span>
+    
+        <span class="sidebar-category-name" data-categories="iOS原理"><span class="iconfont-archer">&#xe60a;</span>iOS原理</span>
+    
+        <span class="sidebar-category-name" data-categories="iOS开发"><span class="iconfont-archer">&#xe60a;</span>iOS开发</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "杨庆"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+        <div class="site-search">
+  <div class="algolia-popup popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="iconfont-archer">&#xe609;</i>
+    </span>
+  </div>
+</div>
+        <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.8.0/dist/instantsearch.min.js" defer></script>
+        <script src="/scripts/search.js" defer></script>
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+
