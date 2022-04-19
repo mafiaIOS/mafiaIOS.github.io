@@ -370,6 +370,43 @@ height:50vh;
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2021/03/18/Swift-%E4%BC%98%E9%9B%85%E4%BD%BF%E7%94%A8-ReuseableIdentifier/" >
+            
+                <span>Swift 优雅使用 ReuseableIdentifier</span>
+        </a>
+        <div class="abstract-content">
+            Swift 怎么优雅使用 Reuseable Identifier
+使用协议 
+使用结构体
+
+由于苹果保准UITableView视图的性能,使用了cell重用机制,cell可以通过重用标识符(reusableIdentifier)进行复用,默认的注册cell和获取cell的方法中,需要传入一个字符串作重用标识符. 但这种方式很容易出错,而且使用起来也相当别扭 , 一种普遍的解决方式, 就是直接只用类名作为重用标识符
+引出问题
+每次都要传入一个类,并且把它转成字符串.所幸,借助Swift泛型特性,我们可以有更加优雅的实现方式 . 
+
+使用协议协议+泛型 优化tableView cells的...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2021/03/18</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "iOS">iOS</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2021/03/18/delegate/" >
             
                 <span>Delegate</span>
@@ -1599,9 +1636,26 @@ category 分类的功能生成, 和 Tags 的形式一样的
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 49
+        Total : 50
         </div>
         <!-- search  -->
         
@@ -1618,6 +1672,11 @@ category 分类的功能生成, 和 Tags 的形式一样的
     
     <div class="archive-year"> 2022 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/19</span><a class="archive-post-title" href= "/2022/04/19/github%E4%B8%AD%E6%B7%BB%E5%8A%A0ssh/" >github中添加ssh</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1911,6 +1970,8 @@ category 分类的功能生成, 和 Tags 的形式一样的
         <span class="sidebar-tag-name" data-tags="iOS高级控件"><span class="iconfont-archer">&#xe606;</span>iOS高级控件</span>
     
         <span class="sidebar-tag-name" data-tags="消息推送"><span class="iconfont-archer">&#xe606;</span>消息推送</span>
+    
+        <span class="sidebar-tag-name" data-tags="gitHub"><span class="iconfont-archer">&#xe606;</span>gitHub</span>
     
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
