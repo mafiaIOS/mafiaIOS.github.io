@@ -357,6 +357,37 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2022/03/22/%E4%BB%BB%E5%8A%A1%E9%98%9F%E5%88%97/" >
+            
+                <span>任务队列</span>
+        </a>
+        <div class="abstract-content">
+            任务 队列一、任务就是执行的操作的意思，也就是在子线程中执行的那段代码（block块内容）。在GCD中是放在block中的。执行任务有两种方式： 同步执行（sync）和异步执行（async）
+同步（Sync）同步添加任务到指定的队列中，在添加的任务执行结束前，会一直等待，直到队列里面的任务完成之后再继续执行，即会阻塞线程。只能在当前线程中执行任务（当前线程，不一定是主线程），不具备开启新线程的能力。 
+异步（async）线程会立即返回，无需等待就会执行下面的任务，不阻塞当前线程。可以在新的线程中执行任务，具备开启新线程的能力（并不一定开启新线程）。如果不是添加到主队列上，异步会在子线程中...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2022/03/22</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "iOS高级知识点">iOS高级知识点</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2022/03/22/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" >
             
                 <span>多线程</span>
@@ -681,36 +712,6 @@ npm install hexo-cli -g
             <!-- date  -->
             <div class="abstract-date">
                 <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2021/06/23</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "系统">系统</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2021/06/22/M1%E8%8A%AF%E7%89%87Mac%E6%A0%BC%E5%BC%8F%E5%8C%96%E7%A1%AC%E7%9B%98%E5%88%9B%E5%BB%BA%E8%B4%A6%E6%88%B7%E6%8A%A5%E9%94%99/" >
-            
-                <span>M1芯片Mac格式化硬盘创建账户报错</span>
-        </a>
-        <div class="abstract-content">
-            M1格式化硬盘出现创建账户失败问题？咨询苹果客服给的操作步骤。按照一下步骤操作：
-12345678910111213141. 启动至恢复分区2. 启动终端3. 运行终端命令：resetpassword4. 单击&quot;重置密码&quot;窗口旁边的背景（空的地方），然后在菜单栏中选择&quot;恢复助理（Recovery Assistant）&quot;，然后选择&quot;抹掉 Mac&quot;。5. 在打开的窗口中单击&quot;抹掉 Mac&quot;，然后再次单击&quot; 抹掉 Mac&quot;进行确认。 完成后，Mac将自动重新启动。6. 抹除后会自动重新启动，重新...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2021/06/22</span>
             </div>
             <!-- tags  -->
             
@@ -1541,9 +1542,26 @@ npm install hexo-cli -g
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 51
+        Total : 52
         </div>
         <!-- search  -->
         
@@ -1560,6 +1578,11 @@ npm install hexo-cli -g
     
     <div class="archive-year"> 2023 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/18</span><a class="archive-post-title" href= "/2023/07/18/Flutter%E5%88%9D%E8%AF%95/" >Flutter初尝试</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1877,6 +1900,8 @@ npm install hexo-cli -g
     
         <span class="sidebar-tag-name" data-tags="SwiftUI"><span class="iconfont-archer">&#xe606;</span>SwiftUI</span>
     
+        <span class="sidebar-tag-name" data-tags="Flutter"><span class="iconfont-archer">&#xe606;</span>Flutter</span>
+    
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
     <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
@@ -1919,6 +1944,8 @@ jsonContent:
         <span class="sidebar-category-name" data-categories="iOS原理"><span class="iconfont-archer">&#xe60a;</span>iOS原理</span>
     
         <span class="sidebar-category-name" data-categories="iOS开发"><span class="iconfont-archer">&#xe60a;</span>iOS开发</span>
+    
+        <span class="sidebar-category-name" data-categories="Flutter"><span class="iconfont-archer">&#xe60a;</span>Flutter</span>
     
     </div>
     <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
