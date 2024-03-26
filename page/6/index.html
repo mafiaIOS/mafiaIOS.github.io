@@ -370,6 +370,41 @@ height:50vh;
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2021/03/17/replace-cname-question/" >
+            
+                <span>Hexo- 解析域名到自己的博客(2)</span>
+        </a>
+        <div class="abstract-content">
+            Hexo CNAME不生效,每次deploy后都要手动设置域名 (解决问题)原理Hexo在执行 hexo generate 的时候会在本地先把博客生成的一套静态站点放到 public 文件夹里, 在执行 hexo deploy 时将其复制到.deploy 文件夹里.
+
+ 将 CNAME 文件放到 /source文件夹下,内容为自己的域名, 例如: yqblog.cn
+
+上面这个方法, 我本地尝试的不成功, 每次还是会被替换成 github.io 的地址, 索性通过插件的方式解决了这个问题.
+12插件地址:$ npm install hexo-generator-cname --save
+...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2021/03/17</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Hexo">Hexo</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2021/03/16/hexo-setting-domain/" >
             
                 <span>Hexo- 解析域名到自己的博客(1)</span>
@@ -1601,9 +1636,26 @@ category 分类的功能生成, 和 Tags 的形式一样的
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 56
+        Total : 57
         </div>
         <!-- search  -->
         
@@ -1620,6 +1672,11 @@ category 分类的功能生成, 和 Tags 的形式一样的
     
     <div class="archive-year"> 2024 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/26</span><a class="archive-post-title" href= "/2024/03/26/SwiftUI-YouTube-miniPlaye/" >SwiftUI-YouTube-miniPlaye</a>
+        </li>
     
     
         <li class="archive-post-item">
