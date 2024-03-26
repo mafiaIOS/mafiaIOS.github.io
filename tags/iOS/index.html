@@ -357,6 +357,55 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2024/03/26/HoldDownButton/" >
+            
+                <span>HoldDownButton</span>
+        </a>
+        <div class="abstract-content">
+            SwiftUI - HoldDownButton 制作样张如下
+搭建 UI
+封装所需属性
+定时器
+定时器的作用: 就是用来动画的形式制作进度条
+
+
+定时器使用
+拿到 timerCounter 就能在 UI 部分设置width  , 运行即可看到效果
+这里用到.onReceive 修饰符, 内部通过订阅timer消息,就可以间隔 0.01 拿到一次更新 , 就可以计算 progress 逻辑了. 
+
+==引出一个问题? 什么时候触发机制?== 
+HoldDownButton顾名思义就是在长按的时候触发效果 
+手势 Gesture
+view 具备多种手势功能
+
+用到的动画效果
+运行效果
+
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2024/03/26</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "iOS">iOS</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "SwiftUI">SwiftUI</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2024/03/20/SwiftUI-Wheel-Picker/" >
             
                 <span>SwiftUI-Wheel Picker</span>
@@ -677,43 +726,6 @@ https://github.com/Juanpe/SkeletonView
         <a class="post-tag" href="javascript:void(0);" data-tags = "iOS">iOS</a>
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "iOS原理">iOS原理</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2021/03/26/Moya%E5%BA%94%E7%94%A8-2/" >
-            
-                <span>Moya(3) 开发应用篇2</span>
-        </a>
-        <div class="abstract-content">
-            封装 moya 返回的服务器数据解析
-iOS开发中简单界面用一个接口请求可能就达到效果了, 但是对于级联列表,或者表单这类界面, 一般都会有多个接口请求,而且会有 Post Get 上传等多项需求 . 
-
-封装 MapModel 方法
- 让每个网络请求都走这个通道统一返回处理后的json 结果
-
-123456789101112// Send requestprovider.request(.login(userAccount: &quot;18516635543&quot;, password: &quot;1234565&quot;))&#123; (response) in   sw...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2021/03/26</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "iOS">iOS</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Moya">Moya</a>
     
 </div>
             
@@ -1606,9 +1618,26 @@ iOS开发中简单界面用一个接口请求可能就达到效果了, 但是对
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 55
+        Total : 56
         </div>
         <!-- search  -->
         
@@ -1625,6 +1654,11 @@ iOS开发中简单界面用一个接口请求可能就达到效果了, 但是对
     
     <div class="archive-year"> 2024 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/26</span><a class="archive-post-title" href= "/2024/03/26/HoldDownButton/" >HoldDownButton</a>
+        </li>
     
     
         <li class="archive-post-item">

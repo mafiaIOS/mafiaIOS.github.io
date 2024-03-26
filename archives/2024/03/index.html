@@ -357,6 +357,55 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2024/03/26/HoldDownButton/" >
+            
+                <span>HoldDownButton</span>
+        </a>
+        <div class="abstract-content">
+            SwiftUI - HoldDownButton 制作样张如下
+搭建 UI
+封装所需属性
+定时器
+定时器的作用: 就是用来动画的形式制作进度条
+
+
+定时器使用
+拿到 timerCounter 就能在 UI 部分设置width  , 运行即可看到效果
+这里用到.onReceive 修饰符, 内部通过订阅timer消息,就可以间隔 0.01 拿到一次更新 , 就可以计算 progress 逻辑了. 
+
+==引出一个问题? 什么时候触发机制?== 
+HoldDownButton顾名思义就是在长按的时候触发效果 
+手势 Gesture
+view 具备多种手势功能
+
+用到的动画效果
+运行效果
+
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2024/03/26</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "iOS">iOS</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "SwiftUI">SwiftUI</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2024/03/20/Mac-%E5%88%B6%E4%BD%9CGif%E5%9B%BE/" >
             
                 <span>Mac 制作Gif图</span>
@@ -1382,9 +1431,26 @@ overlay 一个中间竖杆
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 55
+        Total : 56
         </div>
         <!-- search  -->
         
@@ -1401,6 +1467,11 @@ overlay 一个中间竖杆
     
     <div class="archive-year"> 2024 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/26</span><a class="archive-post-title" href= "/2024/03/26/HoldDownButton/" >HoldDownButton</a>
+        </li>
     
     
         <li class="archive-post-item">
