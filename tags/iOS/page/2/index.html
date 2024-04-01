@@ -357,6 +357,40 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2021/04/07/Moya%E5%A4%9ATarget%E8%B0%83%E7%94%A8%E7%BB%9F%E4%B8%80%E6%8E%A5%E5%8F%A3/" >
+            
+                <span>Moya(4) 开发应用篇3</span>
+        </a>
+        <div class="abstract-content">
+            Moya: 多Target调用统一接口
+ 之前已经介绍了, 利用泛型将后台返回数据, 通过接口传递到外部调用
+
+1234567891011121314151617struct GenericApi&lt;Target: TargetType&gt; &#123;	let provider = MoyaProvider&lt;Target&gt;.appearance()	func request&lt;ModelT&gt;(target: Target, mapModel: ModelT.Type, completion: @escaping (MoyaResult&lt;ModelT&...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2021/04/07</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "iOS">iOS</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Moya">Moya</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2021/04/07/%E6%B6%88%E6%81%AF%E6%8E%A8%E9%80%81%E5%A4%84%E7%90%86/" >
             
                 <span>消息推送处理</span>
@@ -642,49 +676,6 @@ TargetType 协议所必须遵守的模板123456var baseURL: URL &#123;&#125;var 
 每次都要传入一个类,并且把它转成字符串.所幸,借助Swift泛型特性,我们可以有更加优雅的实现方式 . 
 
 使用协议协议+泛型 优化tableView cells的...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2021/03/18</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "iOS">iOS</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2021/03/18/delegate/" >
-            
-                <span>Delegate</span>
-        </a>
-        <div class="abstract-content">
-            代理 概念 一种通用的设计模式，在iOS中对代理设计模式支持的很好，有特定的语法来实现代理模式，OC语言可以通过@Protocol实现协议。
-使用 iOS中一种消息传递的方式，可以通过这种方式来传递一些参数 .
-
-代理的三部分组成:
- 协议:      指定双方(代理方,委托方)必须做什么❓
-
-代理:  实现 委托方需要的帮助 😊    (根据指定的协议)
-
- 委托:  告诉代理我需要哪些帮助😜 (根据指定的协议)
-
-
-
- 所以这里,双方都需要遵守协议
-
-协议 Protocol如上图 , 可知道三方之间的关系 , 在实际应用中通过协议来规定代理双方的行为 ;  协议中的内容一般都是 ...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -1656,9 +1647,26 @@ TargetType 协议所必须遵守的模板123456var baseURL: URL &#123;&#125;var 
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 59
+        Total : 60
         </div>
         <!-- search  -->
         
@@ -1675,6 +1683,11 @@ TargetType 协议所必须遵守的模板123456var baseURL: URL &#123;&#125;var 
     
     <div class="archive-year"> 2024 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/01</span><a class="archive-post-title" href= "/2024/04/01/SwiftUI-LimitedTextField/" >SwiftUI-LimitedTextField</a>
+        </li>
     
     
         <li class="archive-post-item">
