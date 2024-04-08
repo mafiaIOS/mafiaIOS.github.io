@@ -357,6 +357,43 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2021/03/18/Swift-%E4%BC%98%E9%9B%85%E4%BD%BF%E7%94%A8-ReuseableIdentifier/" >
+            
+                <span>Swift 优雅使用 ReuseableIdentifier</span>
+        </a>
+        <div class="abstract-content">
+            Swift 怎么优雅使用 Reuseable Identifier
+使用协议 
+使用结构体
+
+由于苹果保准UITableView视图的性能,使用了cell重用机制,cell可以通过重用标识符(reusableIdentifier)进行复用,默认的注册cell和获取cell的方法中,需要传入一个字符串作重用标识符. 但这种方式很容易出错,而且使用起来也相当别扭 , 一种普遍的解决方式, 就是直接只用类名作为重用标识符
+引出问题
+每次都要传入一个类,并且把它转成字符串.所幸,借助Swift泛型特性,我们可以有更加优雅的实现方式 . 
+
+使用协议协议+泛型 优化tableView cells的...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2021/03/18</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "iOS">iOS</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2021/03/18/delegate/" >
             
                 <span>Delegate</span>
@@ -1404,9 +1441,26 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 60
+        Total : 61
         </div>
         <!-- search  -->
         
@@ -1423,6 +1477,11 @@
     
     <div class="archive-year"> 2024 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/08</span><a class="archive-post-title" href= "/2024/04/08/SwiftUI-TagsView%E5%B8%83%E5%B1%80Layout/" >SwiftUI-TagsView布局Layout</a>
+        </li>
     
     
         <li class="archive-post-item">
