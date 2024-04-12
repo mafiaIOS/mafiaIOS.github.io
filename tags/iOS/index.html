@@ -357,6 +357,53 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2024/04/12/SwiftUI-%E6%89%93%E5%BC%80%E4%B9%A6%E6%9C%AC%E6%95%88%E6%9E%9C%E7%9A%84%E4%B9%A6%E6%9C%AC%E8%A7%86%E5%9B%BE%E5%B0%81%E8%A3%85/" >
+            
+                <span>SwiftUI-打开书本效果的书本视图封装</span>
+        </a>
+        <div class="abstract-content">
+            SwiftUI - 封装打开书本效果的书本视图?目标
+
+ 外部可传递一个配置信息（例如： 书本宽高, 书本圆角, 书本阴影, 书本打开进度, 书本翻页分割线颜色 ）
+ 外部自定义封面、打开内部（左侧、右侧）
+ 打开效果（动画 平滑）
+
+实现预期效果
+
+主逻辑代码
+外部如何使用的？
+其他信息封装提供给外部的接口
+
+配置信息如下
+
+有哪些新东西？
+Animatable协议在SwiftUI中，Animatable是一个协议，用于表示可以通过动画进行过渡的值类型。通过采用Animatable协议，您可以定义自定义视图属性，这些属性可以通过动画进行平滑过渡，以实现更具吸引力和生动的用户界面。
+当您...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2024/04/12</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "iOS">iOS</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "SwiftUI">SwiftUI</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2024/04/08/SwiftUI-TagsView%E5%B8%83%E5%B1%80Layout/" >
             
                 <span>SwiftUI-TagsView布局Layout</span>
@@ -728,47 +775,6 @@ UICollectionView
  场景: 自定义cell内部通过Autolayout 布局, 使cell content 能够自动撑开。
 
 123456789cell.editCallBack = &#123;[weak self] in          guard let self = self else &#123; return &#125;          UIView.performWithoutAnimation &#123;              self.tableView.beginUpdates()              self.tableView.endUpdates()     ...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2021/09/28</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "iOS">iOS</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2021/09/28/%E5%B8%A6%E6%A0%87%E7%AD%BE%E9%80%89%E6%8B%A9%E5%8A%9F%E8%83%BD%E7%9A%84%E5%88%97%E8%A1%A8%E8%A7%86%E5%9B%BE/" >
-            
-                <span>带标签选择功能的列表视图</span>
-        </a>
-        <div class="abstract-content">
-            带有标签选择的列表界面
-应用场景： 评论界面。
- 使用UICollectionView 布局一个可复选, 自适应宽度的标签选择控件。
-
-步骤：
-选用 UICollectionView AutoLayout布局。
-外部主控制器传入数据, 刷新, 并加载初始化状态
-主控制器刷新layout 
-
-UICollectionViewFlowLayout
-布局方式, 根据系统返回的[UICollectionViewLayoutAttributes]去动态的计算排列方式 .
-
-123456789101112131415161718192021222324252627282930313233343536...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -1774,9 +1780,26 @@ UICollectionViewFlowLayout
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 61
+        Total : 62
         </div>
         <!-- search  -->
         
@@ -1793,6 +1816,11 @@ UICollectionViewFlowLayout
     
     <div class="archive-year"> 2024 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/12</span><a class="archive-post-title" href= "/2024/04/12/SwiftUI-%E6%89%93%E5%BC%80%E4%B9%A6%E6%9C%AC%E6%95%88%E6%9E%9C%E7%9A%84%E4%B9%A6%E6%9C%AC%E8%A7%86%E5%9B%BE%E5%B0%81%E8%A3%85/" >SwiftUI-打开书本效果的书本视图封装</a>
+        </li>
     
     
         <li class="archive-post-item">
