@@ -357,6 +357,60 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2024/03/20/SwiftUI-Wheel-Picker/" >
+            
+                <span>SwiftUI-Wheel Picker</span>
+        </a>
+        <div class="abstract-content">
+            Wheel PickerYouTube Tutorial Link: 
+
+
+UI 架构
+Divider() 就是每个竖杆
+
+
+当刻度达到每个 steps 间隔 使用 overlay 显示刻度信息 并调整 divider 高度
+
+
+overlay 一个中间竖杆
+
+修饰符.safeAreaPadding 从中间开始移动 size.width / 2
+
+
+搭建刻度视图
+配置刻度相关信息
+显示刻度值
+
+滚动到指定位置或者边缘不然拿不到读数
+
+官方文档解释
+.scrollTargetLayout
+这个修饰符在需要更精确地控制滚动视图中内容的布局时非常有用, 特别当你需要确保内容在滚动时以某种特定的...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2024/03/20</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "iOS">iOS</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "SwiftUI">SwiftUI</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2023/07/18/Flutter%E5%88%9D%E8%AF%95/" >
             
                 <span>Flutter初尝试</span>
@@ -651,44 +705,6 @@ key value observing 键值监听。当指定对象的属性被修改后，允许
             <!-- date  -->
             <div class="abstract-date">
                 <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2022/03/24</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "iOS高级知识点">iOS高级知识点</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2022/03/23/%E6%AD%BB%E9%94%81/" >
-            
-                <span>死锁</span>
-        </a>
-        <div class="abstract-content">
-            多线程——死锁
-死锁，就是队列引起的循环等待。
-
-
-比较常见的例子: 主队列同步
-
-任务添加到主队列(队列: 执行任务的等待的队列), 同步执行,即需要立即执行,(同步: 会造成线程堵塞) , 添加到主队列也就意味着当前任务执行完成才能执行下一个任务(添加到主队列的这个任务);
-就会导致当前任务等待刚才添加到主队列的任务执行完才会执行, 而主队列下当前执行的任务又是遵循FIFO先进先出原则,添加到主队列的任务又需要等待当前任务执行完才会继续执行, 就造成了互相等待, 死锁.
-看下面代码: 
-viewDidLoad当前任务被 NSLog(@&quot;deal lock&quot;);这个...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2022/03/23</span>
             </div>
             <!-- tags  -->
             
@@ -1706,9 +1722,26 @@ viewDidLoad当前任务被 NSLog(@&quot;deal lock&quot;);这个...
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 62
+        Total : 63
         </div>
         <!-- search  -->
         
@@ -1725,6 +1758,11 @@ viewDidLoad当前任务被 NSLog(@&quot;deal lock&quot;);这个...
     
     <div class="archive-year"> 2024 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/27</span><a class="archive-post-title" href= "/2024/06/27/SwiftUI-StackedCardView%E5%A0%86%E5%8F%A0%E8%A7%86%E5%9B%BE%E6%95%88%E6%9E%9C/" >SwiftUI-StackedCardView堆叠视图效果</a>
+        </li>
     
     
         <li class="archive-post-item">
