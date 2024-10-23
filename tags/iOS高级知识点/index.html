@@ -367,7 +367,7 @@ key value observing 键值监听。当指定对象的属性被修改后，允许
 又叫作观察者模式 KVO
 
 先看下面 kvo 代码
-1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253////  ViewController.swift//  testKVO////  Created by dayu on 2022/2/25.//import UIKit// Swift里KVO不需要像OC里那样手动释放，系统自动释...
+1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253////  ViewControl...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -407,7 +407,7 @@ key value observing 键值监听。当指定对象的属性被修改后，允许
 保持线程同步
 异步任务转换为同步 执行任务
 
-123456789101112131415161718192021222324252627282930dispatch_semaphore_create:创建一个 Semaphore 并初始化信号的总量。dispatch_semaphore_signal:发送一个信号，让信号总量 +1。dispatch_sem...
+123456789101112131415161718192021222324252627282930dispa...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -439,7 +439,7 @@ key value observing 键值监听。当指定对象的属性被修改后，允许
             线程组dispatch_group_async
 使用场景： 
 在n个耗时并发任务都完成后，再去执行接下来的任务（通过notify）。 比如： 在n个网络请求完成后去刷新UI页面。
-12345678910111213141516171819202122232425- (void)viewDidLoad &#123;    [super viewDidLoad];    &#x2F;&#x2F; Do any additional setup after loading the view.        &#x2F;&#x2F; 并发队列    dispatch_queue_t concur...
+12345678910111213141516171819202122232425- (void)viewDidLoad &#123;    [super viewDidLoad];    &#x2F;&#x2F;...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -475,7 +475,7 @@ key value observing 键值监听。当指定对象的属性被修改后，允许
 使用GCD实现多读单写？
 多个读者同时读取数据， 而在读的时候不能写入数据。并且，在写的过程中，不能有其他写者去写。即读者之间是并发的，写着与读者或其他写者是互斥的。
 这里的写处理，就是通过栅栏的形式去写。 可以用dispatch_barrier_sync(栅栏函数)实现。 
-12345678910111213141516171819202122232425262728293031- (void)viewDidLoad &#123;    [super viewDidLoad];    &#x2F;&#x2F; ...
+12345678910111213141...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -511,9 +511,7 @@ key value observing 键值监听。当指定对象的属性被修改后，允许
 比较常见的例子: 主队列同步
 
 任务添加到主队列(队列: 执行任务的等待的队列), 同步执行,即需要立即执行,(同步: 会造成线程堵塞) , 添加到主队列也就意味着当前任务执行完成才能执行下一个任务(添加到主队列的这个任务);
-就会导致当前任务等待刚才添加到主队列的任务执行完才会执行, 而主队列下当前执行的任务又是遵循FIFO先进先出原则,添加到主队列的任务又需要等待当前任务执行完才会继续执行, 就造成了互相等待, 死锁.
-看下面代码: 
-viewDidLoad当前任务被 NSLog(@&quot;deal lock&quot;);这个...
+就会导致当前任务等待刚才添加到主队列的任务执行完才会执行, 而主队列下当前执行的任务又是遵循FIFO先进先出原则,...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -543,8 +541,7 @@ viewDidLoad当前任务被 NSLog(@&quot;deal lock&quot;);这个...
         </a>
         <div class="abstract-content">
             任务 队列一、任务就是执行的操作的意思，也就是在子线程中执行的那段代码（block块内容）。在GCD中是放在block中的。执行任务有两种方式： 同步执行（sync）和异步执行（async）
-同步（Sync）同步添加任务到指定的队列中，在添加的任务执行结束前，会一直等待，直到队列里面的任务完成之后再继续执行，即会阻塞线程。只能在当前线程中执行任务（当前线程，不一定是主线程），不具备开启新线程的能力。 
-异步（async）线程会立即返回，无需等待就会执行下面的任务，不阻塞当前线程。可以在新的线程中执行任务，具备开启新线程的能力（并不一定开启新线程）。如果不是添加到主队列上，异步会在子线程中...
+同步（Sync）同步添加任务到指定的队列中，在添加的任务执行结束前，会一直等待，直到队列里面的任务完成之后再继续执行，即会阻塞线程。只能在当前线程中执行任务（当前线程，不一定是主线程），不具备开启新线程...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -579,12 +576,7 @@ viewDidLoad当前任务被 NSLog(@&quot;deal lock&quot;);这个...
 3.每个进程之间是独立的， 每个进程均运行在其专用且受保护的内存空间内，拥有独立运行所需的全部资源。
 
 二、线程
-1.程序执行流的最小单元， 线程是进程中的一个实体。 
-2.一个进程想要执行任务，必须至少有一条线程，应用程序启动的时候，系统会默认开启一条线程，也就是住线程。
-
-三、进程和线程的关系
-1.线程是进程的执行单元，进程的所有任务都在线程中执行
-2....
+1.程序执行流的最小单元， 线程是进程中的一个...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -618,8 +610,7 @@ S SL加密过程忽略.
 
 SSL加密, 在过程中实际使用了==对称加密==和==非对称加密==的结合.
 主要的考虑是==先使用非对称加密进行连接==，这样做是为了避免中间人攻击密钥被劫持，但是非对称加密的效率比较低。 所以一旦建立安全连接后，就可以使用轻量的对称加密。
-二、RSA非对称加密算法对称加密【算法】在加密和解密时使用的==同一个密钥==； 
-而【非对称加密算法】需要==两个【密钥】==来进行加密和解密，这两个密钥是【公开密钥】（public key，简称公钥）和私有密钥（private key，简称私...
+二、RSA非对称加密算法对称加密【算法】在加密...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -1668,9 +1659,24 @@ SSL加密, 在过程中实际使用了==对称加密==和==非对称加密==的�
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 64
+        Total : 65
         </div>
         <!-- search  -->
         
@@ -1690,7 +1696,12 @@ SSL加密, 在过程中实际使用了==对称加密==和==非对称加密==的�
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/22</span><a class="archive-post-title" href= "/2024/10/22/Hexo-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" >Hexo-常用命令</a>
+            <span class="archive-post-date">10/23</span><a class="archive-post-title" href= "/2024/10/23/Hexo-%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/" >Hexo-站点设置首页摘要</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/22</span><a class="archive-post-title" href= "/2024/10/22/Hexo-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" >Hexo-入门及常用命令</a>
         </li>
     
     

@@ -370,12 +370,50 @@ height:50vh;
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2021/03/22/Moya%E5%88%9D%E8%AF%86/" >
+            
+                <span>Moya(1) 初识</span>
+        </a>
+        <div class="abstract-content">
+            Moya 库基本使用忽略导入到项目步骤
+ 官方模板
+
+新建一个 MyService.swift 文件
+新建MyService 枚举, 录入接口目标信息 ( 每个枚举就是一个接口名称 ) 
+写下可能用到的信息作为枚举的一部分 ( 外部调用作为参数传进来 )
+扩展  MyService, 遵守 TargetType 协议
+实现 TargetType 协议 [ baseURL, path, met...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2021/03/22</span>
+            </div>
+            <!-- tags  -->
+            
+            <div class= abstract-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "iOS">iOS</a>
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Moya">Moya</a>
+    
+</div>
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2021/03/19/Swift-POP/" >
             
                 <span>Swift从快速加载xib理解 POP</span>
         </a>
         <div class="abstract-content">
-            面相协议编程12345678910111213141516// 举一个例子protocol Drawing &#123;mutating func addEllipse(rect: CGRect, fill: UIColor)  // 添加椭圆mutating func addRectangle(rect: CGRect, fill: UIColor) // 添加长方形&#125;extension CGContext: Drawing &#123;	func addEllipse(rect: CGRect, fill: UIColor) &#123;		setFillColor(fil...
+            面相协议编程12345678910111213141516// 举一个例子protocol Drawing &#123;mutating func addEllipse(rect: CGRect, fill: UIColor)  // 添加椭圆mutating func addRectangle(rect: CGRect, fill: UIColor) // 添加长方形&#125;exten...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -410,7 +448,7 @@ height:50vh;
 
 Code
 
-123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475import UIKitvar str = &qu...
+123456789101112131415161718192021222324252627282930313233343536373...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -445,18 +483,7 @@ UIWindow是一种特殊的UIView，通常在一个app中只会有一个UIWindow
 iOS程序启动完毕后, 创建的第一个视图控件就是UIWindow ;
 接着创建控制器的view，最后将控制器的view添加到UIWindow上，于是控制器的view就显示在屏幕上了.
 
-一个iOS程序之所以能显示到屏幕上，完全是因为它有UIWindow。也就说，没有UIWindow，就看不见任何UI界面
-
-
-
-补充：UIWindow是创建的第一个视图控件（创建的第一个对象是UIapplication)
-
-
-创建视图
-
-添加视图到 UIWindow
-
-先创建 UIWindow...
+一个iOS程序之所以能显示到屏幕上，完全是因为它有UIWindow。也就说，没有UIWind...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -491,8 +518,7 @@ iOS程序启动完毕后, 创建的第一个视图控件就是UIWindow ;
 UIView 的三大职责之一就是处理响应事件, 一个☝️视图是一个事件响应者,可以处理点击事件
 
 这些事件就是在 UIResponder 类中定义的 
-一个UIResponder类为那些需要响应并处理事件的对象定义了一组接口。这些事件主要分为两类：触摸事件(touch events)和运动事件(motion events)。UIResponder类为每两类事件都定义了一组接口，这个我们将在下面详细描述。
-在UIKit中，UI...
+一个UIResponder类为那些需要响应并处理事件的对象定义了一组接口。这...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -525,11 +551,7 @@ UIView 的三大职责之一就是处理响应事件, 一个☝️视图是一�
 使用协议 
 使用结构体
 
-由于苹果保准UITableView视图的性能,使用了cell重用机制,cell可以通过重用标识符(reusableIdentifier)进行复用,默认的注册cell和获取cell的方法中,需要传入一个字符串作重用标识符. 但这种方式很容易出错,而且使用起来也相当别扭 , 一种普遍的解决方式, 就是直接只用类名作为重用标识符
-引出问题
-每次都要传入一个类,并且把它转成字符串.所幸,借助Swift泛型特性,我们可以有更加优雅的实现方式 . 
-
-使用协议协议+泛型 优化tableView cells的...
+由于苹果保准UITableView视图的性能,使用了cell重用机制,cell可以通过重用标识符(reusableIdentifier)进行复用,默认的注册cell和获取cell的方法中,需要传入一个字符串作重用标识符. 但这种方式很容易出错,而且使用起来也相当别扭 , 一种普遍的解决方式, 就是直...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -566,13 +588,7 @@ UIView 的三大职责之一就是处理响应事件, 一个☝️视图是一�
 
 代理:  实现 委托方需要的帮助 😊    (根据指定的协议)
 
- 委托:  告诉代理我需要哪些帮助😜 (根据指定的协议)
-
-
-
- 所以这里,双方都需要遵守协议
-
-协议 Protocol如上图 , 可知道三方之间的关系 , 在实际应用中通过协议来规定代理双方的行为 ;  协议中的内容一般都是 ...
+ 委托:  告诉代理我需要哪些...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -606,12 +622,7 @@ UIView 的三大职责之一就是处理响应事件, 一个☝️视图是一�
 在Swift中, 继承是区分”类”和其他类型的基本区别 .
 原本任何需要”类+继承” 来实现的功能都可以被”值类型+协议” 所取代 . 这个说法并不夸张
 类和结构体概念问题: 是否所有的模型都建议使用struct? 
-因为struct 是值类型,放在栈里面, 没有引用计数, 速度比class快几千万倍https://www.jianshu.com/p/119419d93a1e
-系统自动生成面向其他代码的外部接口
-
-注意: 结构体总是通过复制的方式在代码总传递,不使用引用计数 
-
-类和结...
+因为struct 是值类型,放在栈里面, 没有引用计数, 速度比clas...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -644,9 +655,7 @@ UIView 的三大职责之一就是处理响应事件, 一个☝️视图是一�
 
  将 CNAME 文件放到 /source文件夹下,内容为自己的域名, 例如: yqblog.cn
 
-上面这个方法, 我本地尝试的不成功, 每次还是会被替换成 github.io 的地址, 索性通过插件的方式解决了这个问题.
-12插件地址:$ npm install hexo-generator-cname --save
-...
+上面这个方法, 我本地...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -687,15 +696,7 @@ UIView 的三大职责之一就是处理响应事件, 一个☝️视图是一�
 
 
 
-进入DNS 解析管理, 添加两条 CNAME 记录, @和 www, 记录值就是 github 的 博客地址; 
-
-
-添加完之后, www.xxx.cn 域名就已经绑定好了, 这个时候就要去 github 上设置域名关联
-
-
-
-
-先去解...
+进入DNS 解析管理, 添加两条 C...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -707,44 +708,6 @@ UIView 的三大职责之一就是处理响应事件, 一个☝️视图是一�
             <div class= abstract-tags >
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "Hexo">Hexo</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2021/03/11/iOS-%E5%BC%80%E5%8F%91-xib-%E5%B8%83%E5%B1%80-UIScrollview/" >
-            
-                <span>Xib 布局 UIScrollview</span>
-        </a>
-        <div class="abstract-content">
-            xib 布局 UIScrollView界面控件：label View scrollView
-场景 xib 布局 UIScrollView 一个常见的场景, 界面有一个 label, label 的内容决定 View 在 UIScollView 上的显示区域, 随着内容的增多而撑开, 但是 view 距离屏幕底部距离固定不变 , 这里根据我实际操作一遍, 做个记录. 
-要达到的效果:
-
-label 距离 view 间距不变
-view 距离屏幕的底部距离不变
-
-
-如需转载请注明出处
-
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2021/03/11</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "xib">xib</a>
     
 </div>
             
@@ -1864,9 +1827,24 @@ view 距离屏幕的底部距离不变
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 64
+        Total : 65
         </div>
         <!-- search  -->
         
@@ -1886,7 +1864,12 @@ view 距离屏幕的底部距离不变
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/22</span><a class="archive-post-title" href= "/2024/10/22/Hexo-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" >Hexo-常用命令</a>
+            <span class="archive-post-date">10/23</span><a class="archive-post-title" href= "/2024/10/23/Hexo-%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/" >Hexo-站点设置首页摘要</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/22</span><a class="archive-post-title" href= "/2024/10/22/Hexo-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" >Hexo-入门及常用命令</a>
         </li>
     
     

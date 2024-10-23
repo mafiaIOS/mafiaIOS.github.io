@@ -367,7 +367,7 @@
 
 
 如图- 分为上中下三部分, 最重要的是中间部分堆叠视图效果制作围绕这块。
-1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071struct Home: View &#123;    var body: some View &#123;        VStack &#123;            StackedC...
+12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -411,8 +411,7 @@
 配置信息如下
 
 有哪些新东西？
-Animatable协议在SwiftUI中，Animatable是一个协议，用于表示可以通过动画进行过渡的值类型。通过采用Animatable协议，您可以定义自定义视图属性，这些属性可以通过动画进行平滑过渡，以实现更具吸引力和生动的用户界面。
-当您...
+Animatable协议在SwiftUI中，An...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -446,8 +445,7 @@ Animatable协议在SwiftUI中，Animatable是一个协议，用于表示可以�
             SwiftUI-TagsView布局Layout
 
 Layout在SwiftUI中，Layout协议不是公共API的一部分，而是用于内部实现的。它用于定义如何布局视图的实际算法。开发者通常不会直接与Layout协议进行交互，而是通过使用SwiftUI提供的布局系统来实现自定义布局。
-SwiftUI的布局系统是基于声明式的，它使用View协议来定义视图的外观和行为，而不是直接控制布局算法。在开发者创建自定义布局时，他们通常会通过实现View协议中的body属性来创建自己的视图，并使用SwiftUI提供的布局容器（例如VStack、HStack、ZStack等）来组织和排列子视图。
-虽然La...
+SwiftUI的布局系统是基于声明式的，它使用View协议来定义视图的外观和行为，而不是直接控制布局算法。在开...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -491,15 +489,7 @@ autoResize = true， 意味着根据输入的内容自动撑开。 frame 的 hei
 
 进度显示
 
-非 UI封装相关配置信息
-键盘聚焦
-要达到效果： 点击Textfield外围空白部分也能聚焦弹出键盘。
-
-
-超出字符, 截断
-当超过给定的限制字数, 输入直接截断
-
-用到的修饰符.onChange(of: value, ...
+非 UI封装相关配置...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -535,7 +525,7 @@ autoResize = true， 意味着根据输入的内容自动撑开。 frame 的 hei
 UI 设计
 SideMenu 部分
 Tab 枚举配置
-1234567891011121314151617enum Tab: String, CaseIterable &#123;    case home = &quot;house.fill&quot;    case bookmark = &quot;book.fill&quot;    case favourites = &quot;heart.fill&quot;    case profile = &quot;person.crop.circle&q...
+1234567891011121314151617enum Tab: String, CaseIterable &#123;    case home = &quot;house.fill&quot;    case bookmark = &quot;book...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -576,8 +566,7 @@ Xcode 通过 package集成 使用方式可查看 GitHub 文档。
 加载更多
 加载指示器
 图片加载
-所需参数声明
-
+所需参数...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -620,26 +609,7 @@ TabView
 TabItem 1
 
 
-修饰符 扩展 View , setupTab(xx)
-
-
-TabItem 2
-
-TabItem 3
-
-
-
-
-
-
-之前没意识到系统自带的和自定义的区别和做法
-下面看一下对比
-
-
-这是系统自带的
-
-我们采用自定义的
-所以会隐藏系统自带...
+修饰符 扩展 View , s...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -680,13 +650,7 @@ TabItem 3
 
 定时器使用
 拿到 timerCounter 就能在 UI 部分设置width  , 运行即可看到效果
-这里用到.onReceive 修饰符, 内部通过订阅timer消息,就可以间隔 0.01 拿到一次更新 , 就可以计算 progress 逻辑了. 
-
-==引出一个问题? 什么时候触发机制?== 
-HoldDownButton顾名思义就是在长按的时候触发效果 
-手势 Gesture
-view 具备多种手势功能
-修饰符 ....
+这里用到.onReceive 修饰符, 内部通过订阅timer消息,就可以间隔 0.01 拿到一次更新 , 就可以计算 p...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -725,20 +689,7 @@ view 具备多种手势功能
 
   OffsetKey: PreferenceKey
 
-  .preference .onPreferenceChange
-
-  playPause(:) 
-
-
-页面结构
-
-HomeView
-
-
-Scrollview
-
-
-Overlay ( 其他控件 不跟着 scrollView...
+  .preferenc...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -784,13 +735,7 @@ overlay 一个中间竖杆
 
 搭建刻度视图
 配置刻度相关信息
-显示刻度值
-
-滚动到指定位置或者边缘不然拿不到读数
-
-官方文档解释
-.scrollTargetLayout
-这个修饰符在需要更精确地控制滚动视图中内容的布局时非常有用, 特别当你需要确保内容在滚动时以某种特定的...
+显示刻度值...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -1845,9 +1790,24 @@ overlay 一个中间竖杆
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 64
+        Total : 65
         </div>
         <!-- search  -->
         
@@ -1867,7 +1827,12 @@ overlay 一个中间竖杆
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/22</span><a class="archive-post-title" href= "/2024/10/22/Hexo-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" >Hexo-常用命令</a>
+            <span class="archive-post-date">10/23</span><a class="archive-post-title" href= "/2024/10/23/Hexo-%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/" >Hexo-站点设置首页摘要</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/22</span><a class="archive-post-title" href= "/2024/10/22/Hexo-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" >Hexo-入门及常用命令</a>
         </li>
     
     
