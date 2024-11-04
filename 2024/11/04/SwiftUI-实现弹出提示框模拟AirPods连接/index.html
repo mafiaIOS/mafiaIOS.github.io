@@ -20,20 +20,24 @@
     <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
     
     <meta name="description" content="杨庆的博客">
-    <meta name="description" content="杨庆的博客">
-<meta property="og:type" content="website">
-<meta property="og:title" content="杨庆的个人博客">
-<meta property="og:url" content="http://www.yqblog.cn/archives/2024/page/2/index.html">
+    <meta name="description" content="SwiftUI实现底部弹出提示框。swiftUI, Animation, Layout  功能： 点击按钮弹出Toast， 堆叠式， 点击可全屏展示， 左侧滑可移除， 移除全部退出全屏。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SwiftUI-实现弹出提示框模拟AirPods连接">
+<meta property="og:url" content="http://www.yqblog.cn/2024/11/04/SwiftUI-%E5%AE%9E%E7%8E%B0%E5%BC%B9%E5%87%BA%E6%8F%90%E7%A4%BA%E6%A1%86%E6%A8%A1%E6%8B%9FAirPods%E8%BF%9E%E6%8E%A5/index.html">
 <meta property="og:site_name" content="杨庆的个人博客">
-<meta property="og:description" content="杨庆的博客">
+<meta property="og:description" content="SwiftUI实现底部弹出提示框。swiftUI, Animation, Layout  功能： 点击按钮弹出Toast， 堆叠式， 点击可全屏展示， 左侧滑可移除， 移除全部退出全屏。">
 <meta property="og:locale">
+<meta property="og:image" content="http://www.yqblog.cn/2024/11/04/SwiftUI-%E5%AE%9E%E7%8E%B0%E5%BC%B9%E5%87%BA%E6%8F%90%E7%A4%BA%E6%A1%86%E6%A8%A1%E6%8B%9FAirPods%E8%BF%9E%E6%8E%A5/swiftuiToast.gif">
+<meta property="article:published_time" content="2024-11-04T12:34:04.000Z">
+<meta property="article:modified_time" content="2024-11-04T12:45:22.376Z">
 <meta property="article:author" content="杨庆">
 <meta property="article:tag" content="Xcode iOS">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.yqblog.cn/2024/11/04/SwiftUI-%E5%AE%9E%E7%8E%B0%E5%BC%B9%E5%87%BA%E6%8F%90%E7%A4%BA%E6%A1%86%E6%A8%A1%E6%8B%9FAirPods%E8%BF%9E%E6%8E%A5/swiftuiToast.gif">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     
-    <title>扬庆的博客</title>
+    <title>SwiftUI-实现弹出提示框模拟AirPods连接 · 扬庆的博客</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -214,12 +218,23 @@
 <meta name="generator" content="Hexo 5.4.0"></head>
 
     
+        <body class="post-body">
+    
     
 <header class="header">
 
     <div class="read-progress"></div>
     <div class="header-sidebar-menu">&#xe775;</div>
     <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >扬庆の博客</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">SwiftUI-实现弹出提示框模拟AirPods连接</a>
+            </div>
+    </div>
     
     <a class="home-link" href=/>扬庆の博客</a>
 </header>
@@ -231,24 +246,68 @@
 
 
 
+
+height:50vh;
 ">
     
     <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
             
     <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
+            
+            SwiftUI-实现弹出提示框模拟AirPods连接
+            <!-- 404 -->
             
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
+            
+            <!-- 404 -->
+            
         </p>
         <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">765</span>阅读时长: <span class="post-count reading-time">4 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2024/11/04</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
         
     </div>
 </div>
@@ -349,228 +408,106 @@
 </script>        
         <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
         <div class="container container-unloaded">
-            <main class="main index-page">
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2024/03/26/SwiftUI-YouTube-miniPlaye/" >
-            
-                <span>SwiftUI-YouTube-miniPlaye</span>
-        </a>
-        <div class="abstract-content">
-            SwiftUI- 模仿 YouTube 之 miniPlayer+手势YouTube Mini Player
-Kavsoft 视频地址: https://www.youtube.com/watch?v=DtYDH4woWiY&amp;t=56s 比较复杂的 SwiftUI 动画
-搭建Home页面框架
-ZStack
+            <main class="main post-page">
+    <article class="article-entry">
+        <p>SwiftUI实现底部弹出提示框。<code>swiftUI, Animation, Layout</code></p>
+<blockquote>
+<p>功能： 点击按钮弹出Toast， 堆叠式， 点击可全屏展示， 左侧滑可移除， 移除全部退出全屏。</p>
+</blockquote>
+<span id="more"></span>
 
 
-TabView
+<h2 id="剖析"><a href="#剖析" class="headerlink" title="剖析:"></a>剖析:</h2><p><u>toast显示在底部修饰符</u>: <code>.overlay(alignment: .bottom)</code></p>
+<p><code>isExpanded:</code> 弹出一个toastsView, 该视图内部通过<code>isExpanded</code>属性,可控制<code>layout</code> (v轴,z轴) 切换布局.<br><code>isDeleting:</code> 侧滑移除toastsView的item.</p>
+<p><strong>layout 内部逻辑</strong><br><u>layout 内部布局每个 <code>item toast</code>展示样式.</u> </p>
+<ul>
+<li><p>modifier:  <code>Gesture</code> 手势, <code>DragGesture</code>(拖拽), 可控制侧滑, 拿到xOffset, 逻辑判断移除(赋值isDeleting).</p>
+</li>
+<li><p>modifier：<code>.offset(x: xOffset)</code> 可实现侧滑.<br>modifer： <code>.visualEffect </code>对每个item实现<code>scale, offset </code>操作.</p>
+</li>
+<li><p>modifier： <code>.zindex() </code>控制删除时从底部移除.<br>modifier： <code>.transition(.asymetric)</code>  使用复合转换动画, 丛<code>edge: .leading</code> 左侧移除.</p>
+</li>
+</ul>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p><strong>Per toast所需信息</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Toast</span>: <span class="title">Identifiable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private(set)</span> <span class="keyword">var</span> id: <span class="type">String</span> <span class="operator">=</span> <span class="type">UUID</span>().uuidString</span><br><span class="line">    <span class="keyword">var</span> content: <span class="type">AnyView</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">init</span>(<span class="params">content</span>: <span class="keyword">@escaping</span> (<span class="type">String</span>)-&gt; <span class="keyword">some</span> <span class="type">View</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.content <span class="operator">=</span> .<span class="keyword">init</span>(content(id))</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// View Properties</span></span><br><span class="line">    <span class="keyword">var</span> offsetX: <span class="type">CGFloat</span> <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">var</span> isDeleting: <span class="type">Bool</span> <span class="operator">=</span> <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
-TabItem 1
+<p><strong>toastsView 作用的上层任意视图</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">View</span> </span>&#123;</span><br><span class="line">    <span class="meta">@ViewBuilder</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">interactiveToasts</span>(<span class="keyword">_</span> <span class="params">toasts</span>: <span class="type">Binding</span>&lt;[<span class="type">Toast</span>]&gt;)</span> -&gt; <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="keyword">self</span></span><br><span class="line">            .frame(maxWidth: .infinity, maxHeight: .infinity)</span><br><span class="line">            .overlay(alignment: .bottom) &#123;</span><br><span class="line">                <span class="type">ToastsView</span>(toasts: toasts)</span><br><span class="line">            &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
-修饰符 扩展 View , s...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2024/03/26</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "iOS">iOS</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "SwiftUI">SwiftUI</a>
-    
-</div>
-            
-        </div>
+<p><strong>组合视图</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fileprivate</span> <span class="class"><span class="keyword">struct</span> <span class="title">ToastsView</span>: <span class="title">View</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Binding</span> <span class="keyword">var</span> toasts: [<span class="type">Toast</span>]</span><br><span class="line">    <span class="meta">@State</span> <span class="keyword">private</span> <span class="keyword">var</span> isExpanded: <span class="type">Bool</span> <span class="operator">=</span> <span class="literal">false</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">ZStack</span>(alignment: .bottom) &#123;</span><br><span class="line">            <span class="keyword">if</span> isExpanded &#123;</span><br><span class="line">                <span class="type">Rectangle</span>()</span><br><span class="line">                    .fill(.ultraThinMaterial)</span><br><span class="line">                    .ignoresSafeArea()</span><br><span class="line">                    .onTapGesture &#123;</span><br><span class="line">                        isExpanded <span class="operator">=</span> <span class="literal">false</span></span><br><span class="line">                    &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">let</span> layout <span class="operator">=</span> isExpanded <span class="operator">?</span> <span class="type">AnyLayout</span>(<span class="type">VStackLayout</span>(spacing: <span class="number">10</span>)) : <span class="type">AnyLayout</span>(<span class="type">ZStackLayout</span>())</span><br><span class="line">            </span><br><span class="line">            layout &#123;</span><br><span class="line">                <span class="type">ForEach</span>(<span class="variable">$toasts</span>) &#123; <span class="variable">$toast</span> <span class="keyword">in</span></span><br><span class="line">                    <span class="keyword">let</span> index <span class="operator">=</span> (toasts.count <span class="operator">-</span> <span class="number">1</span>) <span class="operator">-</span> (toasts.firstIndex(where: &#123; <span class="variable">$0</span>.id <span class="operator">==</span> toast.id&#125;) <span class="operator">??</span> <span class="number">0</span>)</span><br><span class="line">                    </span><br><span class="line">                    toast.content</span><br><span class="line">                        .offset(x: toast.offsetX) <span class="comment">// 向左移动删除手势。</span></span><br><span class="line">                        .gesture(</span><br><span class="line">                            <span class="type">DragGesture</span>()</span><br><span class="line">                                .onChanged &#123; value <span class="keyword">in</span></span><br><span class="line">                                    <span class="keyword">let</span> xOffset <span class="operator">=</span> value.translation.width <span class="operator">&lt;</span> <span class="number">0</span> <span class="operator">?</span> value.translation.width : <span class="number">0</span></span><br><span class="line">                                    toast.offsetX <span class="operator">=</span> xOffset</span><br><span class="line">                                &#125;</span><br><span class="line">                                .onEnded &#123; value <span class="keyword">in</span></span><br><span class="line">                                    <span class="keyword">let</span> xOffset <span class="operator">=</span> (value.velocity.width <span class="operator">/</span> <span class="number">2</span>) <span class="operator">+</span> value.translation.width</span><br><span class="line">                                    </span><br><span class="line">                                    <span class="keyword">if</span> <span class="operator">-</span>xOffset <span class="operator">&gt;</span> <span class="number">200</span> &#123;</span><br><span class="line">                                        <span class="comment">/// Remove Toast</span></span><br><span class="line">                                        <span class="variable">$toasts</span>.delete(toast.id)</span><br><span class="line">                                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                                        <span class="comment">/// Reset Toast to initial position</span></span><br><span class="line">                                        toast.offsetX <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">                                    &#125;</span><br><span class="line">                                &#125;</span><br><span class="line">                        )</span><br><span class="line">                        .visualEffect &#123; [isExpanded] content, proxy <span class="keyword">in</span></span><br><span class="line">                            content</span><br><span class="line">                                .scaleEffect(isExpanded <span class="operator">?</span> <span class="number">1</span> : scale(index), anchor: .bottom)</span><br><span class="line">                                .offset(y: isExpanded <span class="operator">?</span> <span class="number">0</span> : offsetY(index))</span><br><span class="line">                        &#125;</span><br><span class="line">                        .zIndex(toast.isDeleting <span class="operator">?</span> <span class="number">1000</span> : <span class="number">0</span>) <span class="comment">// 删除的时候放下面</span></span><br><span class="line">                        .frame(maxWidth: .infinity)</span><br><span class="line">                        .transition(.asymmetric(insertion: .offset(y: <span class="number">100</span>), removal: .move(edge: .leading)))</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            .onTapGesture &#123;</span><br><span class="line">                isExpanded.toggle()</span><br><span class="line">            &#125;</span><br><span class="line">            .padding(.bottom, <span class="number">15</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        .animation(.bouncy, value: isExpanded)</span><br><span class="line">        .onChange(of: toasts.isEmpty) &#123; oldValue, newValue <span class="keyword">in</span></span><br><span class="line">            <span class="keyword">if</span> newValue &#123;</span><br><span class="line">                isExpanded <span class="operator">=</span> <span class="literal">false</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/* 0 15 30  这三个区别*/</span></span><br><span class="line">    nonisolated <span class="function"><span class="keyword">func</span> <span class="title">offsetY</span>(<span class="keyword">_</span> <span class="params">index</span>: <span class="type">Int</span>)</span> -&gt; <span class="type">CGFloat</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> offset <span class="operator">=</span> <span class="built_in">min</span>(<span class="type">CGFloat</span>(index) <span class="operator">*</span> <span class="number">15</span>, <span class="number">30</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="operator">-</span>offset</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    nonisolated <span class="function"><span class="keyword">func</span> <span class="title">scale</span>(<span class="keyword">_</span> <span class="params">index</span>: <span class="type">Int</span>)</span> -&gt; <span class="type">CGFloat</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> scale <span class="operator">=</span> <span class="built_in">min</span>(<span class="type">CGFloat</span>(index) <span class="operator">*</span> <span class="number">0.1</span>, <span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span> <span class="operator">-</span> scale</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">Binding</span>&lt;[<span class="title">Toast</span>]&gt; </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">delete</span>(<span class="keyword">_</span> <span class="params">id</span>: <span class="type">String</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">let</span> toast <span class="operator">=</span> first(where: &#123; <span class="variable">$0</span>.id <span class="operator">==</span> id &#125;) &#123;</span><br><span class="line">            toast.wrappedValue.isDeleting <span class="operator">=</span> <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">        withAnimation(.bouncy) &#123;</span><br><span class="line">            <span class="keyword">self</span>.wrappedValue.removeAll(where: &#123; <span class="variable">$0</span>.id <span class="operator">==</span> id &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>外部控制添加的每个Toast具体信息</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// 自定义 Toast View</span></span><br><span class="line"><span class="meta">@ViewBuilder</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">ToastView</span>(<span class="keyword">_</span> <span class="params">id</span>: <span class="type">String</span>)</span> -&gt; <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">    <span class="type">HStack</span>(spacing: <span class="number">12</span>) &#123;</span><br><span class="line">        <span class="type">Image</span>(systemName: <span class="string">&quot;airpods.pro&quot;</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="type">Text</span>(<span class="string">&quot;iJustine&#x27;s Airpods&quot;</span>)</span><br><span class="line">            .font(.callout)</span><br><span class="line">    &#125;</span><br><span class="line">    .foregroundStyle(<span class="type">Color</span>.primary)</span><br><span class="line">    .padding(.vertical, <span class="number">12</span>)</span><br><span class="line">    .padding(.horizontal, <span class="number">15</span>)</span><br><span class="line">    .background &#123;</span><br><span class="line">        <span class="type">Capsule</span>()</span><br><span class="line">            .fill(.background)</span><br><span class="line">            .shadow(color: .black.opacity(<span class="number">0.06</span>), radius: <span class="number">3</span>, x: <span class="operator">-</span><span class="number">1</span>, y: <span class="operator">-</span><span class="number">3</span>)</span><br><span class="line">            .shadow(color: .black.opacity(<span class="number">0.06</span>), radius: <span class="number">2</span>, x: <span class="number">1</span>, y: <span class="number">3</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">****</span>使用者可以是任何视图, 使用扩展的<span class="type">View</span> , 通过.interactiveToasts(<span class="variable">$toasts</span>)这个<span class="type">ViewBuilder</span><span class="operator">****</span></span><br><span class="line"><span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">        <span class="type">NavigationStack</span> &#123;</span><br><span class="line">            <span class="type">List</span> &#123;</span><br><span class="line">                <span class="type">Text</span>(<span class="string">&quot;Dummy List Row View&quot;</span>)</span><br><span class="line">            &#125;</span><br><span class="line">            .navigationTitle(<span class="string">&quot;Toasts&quot;</span>)</span><br><span class="line">            .toolbar &#123;</span><br><span class="line">                <span class="type">ToolbarItem</span>(placement: .topBarTrailing) &#123;</span><br><span class="line">                    <span class="type">Button</span>(<span class="string">&quot;Show&quot;</span>) &#123; showToast() &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        .interactiveToasts(<span class="variable">$toasts</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">showToast</span>()</span> &#123;</span><br><span class="line">        withAnimation(.bouncy) &#123;</span><br><span class="line">            <span class="keyword">let</span> toast <span class="operator">=</span> <span class="type">Toast</span> &#123; id <span class="keyword">in</span></span><br><span class="line">                <span class="type">ToastView</span>(id)</span><br><span class="line">            &#125;</span><br><span class="line">            toasts.append(toast)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2024/11/04/SwiftUI-%E5%AE%9E%E7%8E%B0%E5%BC%B9%E5%87%BA%E6%8F%90%E7%A4%BA%E6%A1%86%E6%A8%A1%E6%8B%9FAirPods%E8%BF%9E%E6%8E%A5/swiftuiToast.gif" alt="swiftuiToast"></p>
+
     </article>
+    <!-- license  -->
     
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2024/03/26/HoldDownButton/" >
-            
-                <span>HoldDownButton</span>
-        </a>
-        <div class="abstract-content">
-            SwiftUI - HoldDownButton 制作YouTube 地址
-样张如下
-搭建 UI
-封装所需属性
-定时器
-定时器的作用: 就是用来动画的形式制作进度条
-
-
-定时器使用
-拿到 timerCounter 就能在 UI 部分设置width  , 运行即可看到效果
-这里用到.onReceive 修饰符, 内部通过订阅timer消息,就可以间隔 0.01 拿到一次更新 , 就可以计算 p...
+        <div class="license-wrapper">
+            <p>原文作者：<a href="http://www.yqblog.cn">杨庆</a>
+            <p>原文链接：<a href="http://www.yqblog.cn/2024/11/04/SwiftUI-%E5%AE%9E%E7%8E%B0%E5%BC%B9%E5%87%BA%E6%8F%90%E7%A4%BA%E6%A1%86%E6%A8%A1%E6%8B%9FAirPods%E8%BF%9E%E6%8E%A5/">http://www.yqblog.cn/2024/11/04/SwiftUI-%E5%AE%9E%E7%8E%B0%E5%BC%B9%E5%87%BA%E6%8F%90%E7%A4%BA%E6%A1%86%E6%A8%A1%E6%8B%9FAirPods%E8%BF%9E%E6%8E%A5/</a>
+            <p>发表日期：<a href="http://www.yqblog.cn/2024/11/04/SwiftUI-%E5%AE%9E%E7%8E%B0%E5%BC%B9%E5%87%BA%E6%8F%90%E7%A4%BA%E6%A1%86%E6%A8%A1%E6%8B%9FAirPods%E8%BF%9E%E6%8E%A5/">November 4th 2024, 8:34:04 pm</a>
+            <p>更新日期：<a href="http://www.yqblog.cn/2024/11/04/SwiftUI-%E5%AE%9E%E7%8E%B0%E5%BC%B9%E5%87%BA%E6%8F%90%E7%A4%BA%E6%A1%86%E6%A8%A1%E6%8B%9FAirPods%E8%BF%9E%E6%8E%A5/">November 4th 2024, 8:45:22 pm</a>
+            <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2024/03/26</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "iOS">iOS</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "SwiftUI">SwiftUI</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2024/03/20/Mac-%E5%88%B6%E4%BD%9CGif%E5%9B%BE/" >
-            
-                <span>Mac 制作Gif图</span>
-        </a>
-        <div class="abstract-content">
-            Mac如何制作Gif图？ （免费🆓）前言参考博文
-
- 所需一台Mac 自带 QuickTime Player 来录制
- Gifify 工具实现自己录制制作 gif 动态图
-
-具体实现QUickTime Player 录制视频 ⏺️
-依次点击， 文件 - 新建录制屏幕
-
-
-
-点击录制所选部分， 框选所需要录制的区域
-依次点击选项 – 桌面 – 录制（即可）。
-
-
-Gifify 工具mov 转...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2024/03/20</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "brew">brew</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Others">Others</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2024/03/20/ReelsLayout-%E6%8A%96%E9%9F%B3/" >
-            
-                <span>SwiftUI-ReelsLayout 抖音</span>
-        </a>
-        <div class="abstract-content">
-            SwiftUI -ReelsLayout AppYouTube Link address: 
-效果图类似于tiktok 播放页面, 滑动切换
-  AVKit UIViewControllerRepresentable
-
-  makeUIViewController updateUIViewController
-
-  OffsetKey: PreferenceKey
-
-  .preferenc...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2024/03/20</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "SwiftUI">SwiftUI</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2024/03/20/SwiftUI-Wheel-Picker/" >
-            
-                <span>SwiftUI-Wheel Picker</span>
-        </a>
-        <div class="abstract-content">
-            Wheel PickerYouTube Tutorial Link: 
-
-
-UI 架构
-Divider() 就是每个竖杆
-
-
-当刻度达到每个 steps 间隔 使用 overlay 显示刻度信息 并调整 divider 高度
-
-
-overlay 一个中间竖杆
-
-修饰符.safeAreaPadding 从中间开始移动 size.width / 2
-
-
-搭建刻度视图
-配置刻度相关信息
-显示刻度值...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2024/03/20</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "iOS">iOS</a>
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "SwiftUI">SwiftUI</a>
-    
-</div>
-            
-        </div>
-    </article>
     
     <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2024/10/24/Mac%E8%A3%85%E6%9C%BA%E5%BF%85%E5%A4%87%E8%BD%AF%E4%BB%B6/" title= "Mac装机必备软件">
+                    <div class="prevTitle">Mac装机必备软件</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
     
-    <nav class="page-nav">
-        <a class="extend prev" rel="prev" href="/archives/2024/">&lt; PREV</a><a class="page-number" href="/archives/2024/">1</a><span class="page-number current">2</span>
-    </nav>
     
+    <!-- gitalk评论 -->
+
+    <!-- utteranc评论 -->
+
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+    <div id="comment"></div>
+    <script>
+    new Valine({
+        el: '#comment' ,
+        notify:false, 
+        verify:false, 
+        appId: "KHTwH8TUp0CNW5DbF57hLh0W-gzGzoHsz",
+        appKey: "2SurPVIS5wUTgNqi23FEoSqs",
+        placeholder: "我有一个大胆的想法💡",
+        path:window.location.pathname, 
+        avatar:'mm' 
+    });
+    </script>
+
+
+    <!-- 评论 -->
 </main>
             <!-- profile -->
             
@@ -655,6 +592,24 @@ overlay 一个中间竖杆
 </footer>
     </div>
     <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%96%E6%9E%90"><span class="toc-number">1.</span> <span class="toc-text">剖析:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81"><span class="toc-number">2.</span> <span class="toc-text">代码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-number">2.1.</span> <span class="toc-text">使用</span></a></li></ol></li></ol>
+    </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
     <div class="sidebar sidebar-hide">
@@ -2188,6 +2143,8 @@ jsonContent:
     
     </div>
     <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
      
     </body>
 </html>
