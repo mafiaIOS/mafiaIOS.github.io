@@ -29,7 +29,7 @@
 <meta property="og:locale">
 <meta property="og:image" content="http://www.yqblog.cn/2024/11/05/SwiftUI-%E5%8F%AF%E9%80%89%E6%88%96%E5%9F%BA%E4%BA%8E%E6%9D%A1%E4%BB%B6%E4%BF%AE%E9%A5%B0%E7%AC%A6%E2%80%9D/swiftui-optionalmodifer.gif">
 <meta property="article:published_time" content="2024-11-05T07:06:19.000Z">
-<meta property="article:modified_time" content="2024-11-05T07:09:49.983Z">
+<meta property="article:modified_time" content="2024-11-06T07:08:25.042Z">
 <meta property="article:author" content="杨庆">
 <meta property="article:tag" content="SwiftUI">
 <meta name="twitter:card" content="summary">
@@ -287,7 +287,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">463</span>阅读时长: <span class="post-count reading-time">1 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">802</span>阅读时长: <span class="post-count reading-time">3 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -435,6 +435,18 @@ height:50vh;
 <blockquote>
 <p>相当于通过 Self 作为参数，传递出去， 这样每个 enum 都能使用 Self 做具体的事情。</p>
 </blockquote>
+<p><strong>1. extension View</strong></p>
+<p>这段代码是对 View 协议的扩展。在 SwiftUI 中，所有视图（例如 Text、Button 等）都遵循 View 协议，因此这个扩展方法可以被应用到所有的 SwiftUI 视图。</p>
+<p><strong>2. @ViewBuilder</strong></p>
+<p>@ViewBuilder 是一个 Swift 属性包装器，用于构建视图的组合体。它允许在闭包中返回多个视图，并自动把它们组合成一个 View。在这里，@ViewBuilder 是为了让 content 闭包在返回视图时可以支持多视图组合，便于使用。</p>
+<p><strong>3. 泛型和闭包</strong></p>
+<p>​    •    Content: View：定义一个泛型参数 Content，限定为 View 类型。这意味着 modifiers 函数会返回一个视图（some View），该视图的内容是 Content。</p>
+<p>​    •    content: @escaping (Self) -&gt; Content：这是一个闭包参数，接收一个视图（Self）并返回一个新的 Content 视图。</p>
+<p>​    •    @escaping 表示这个闭包会被异步执行或者延迟使用。</p>
+<p><strong>4. content(self)</strong></p>
+<p>content(self) 表示在闭包中调用 content，并把当前视图实例（即 self）传递进去。然后，这个闭包会返回一个经过修改的视图。</p>
+<p><strong>用途</strong></p>
+<p><u><em>这个方法的目的是允许你定义一些动态的视图修改器，而不直接在视图上调用修饰符链</em></u>。例如，你可以传入一个闭包来对视图进行多种修改，封装成一组操作。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">注意</span><br><span class="line">只有在没有三元条件或三元条件无法满足要求的情况下(本例中的枚举类型条件下)，才能使用此修改器，因为**使用三元运算符可以保留视图标识**。</span><br><span class="line"></span><br><span class="line">例如，如果您想根据特定条件应用填充，请使用三元操作符：</span><br><span class="line"></span><br><span class="line">.padding(condition ? 15 : 20)</span><br><span class="line"></span><br><span class="line">如果您不能使用三元运算符或三元运算符不能满足您的要求（就像本视频中给出的示例一样），那么请使用此修改器！</span><br></pre></td></tr></table></figure>
 
 
@@ -449,7 +461,7 @@ height:50vh;
             <p>原文作者：<a href="http://www.yqblog.cn">杨庆</a>
             <p>原文链接：<a href="http://www.yqblog.cn/2024/11/05/SwiftUI-%E5%8F%AF%E9%80%89%E6%88%96%E5%9F%BA%E4%BA%8E%E6%9D%A1%E4%BB%B6%E4%BF%AE%E9%A5%B0%E7%AC%A6%E2%80%9D/">http://www.yqblog.cn/2024/11/05/SwiftUI-%E5%8F%AF%E9%80%89%E6%88%96%E5%9F%BA%E4%BA%8E%E6%9D%A1%E4%BB%B6%E4%BF%AE%E9%A5%B0%E7%AC%A6%E2%80%9D/</a>
             <p>发表日期：<a href="http://www.yqblog.cn/2024/11/05/SwiftUI-%E5%8F%AF%E9%80%89%E6%88%96%E5%9F%BA%E4%BA%8E%E6%9D%A1%E4%BB%B6%E4%BF%AE%E9%A5%B0%E7%AC%A6%E2%80%9D/">November 5th 2024, 3:06:19 pm</a>
-            <p>更新日期：<a href="http://www.yqblog.cn/2024/11/05/SwiftUI-%E5%8F%AF%E9%80%89%E6%88%96%E5%9F%BA%E4%BA%8E%E6%9D%A1%E4%BB%B6%E4%BF%AE%E9%A5%B0%E7%AC%A6%E2%80%9D/">November 5th 2024, 3:09:49 pm</a>
+            <p>更新日期：<a href="http://www.yqblog.cn/2024/11/05/SwiftUI-%E5%8F%AF%E9%80%89%E6%88%96%E5%9F%BA%E4%BA%8E%E6%9D%A1%E4%BB%B6%E4%BF%AE%E9%A5%B0%E7%AC%A6%E2%80%9D/">November 6th 2024, 3:08:25 pm</a>
             <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
